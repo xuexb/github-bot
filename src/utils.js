@@ -34,6 +34,12 @@ const utils = {
         }
     },
 
+    getActionLog({dir, before, after, action}) {
+        return execSync(`cd ${dir} && FORMAT="- %s, by @%cn"
+git log ${before}..${after} --no-merges --pretty=format:"$FORMAT" | grep ${action}`).toString();
+
+    },
+
     cloneRepo(url, repo) {
         const repoDir = path.resolve(__dirname, '../github/', repo);
 
