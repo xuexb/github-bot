@@ -38,6 +38,14 @@ url: http://www.example.com
 - revert - 撤销
 - close - 关闭 issue
 
+如：
+
+```
+close: #1, #3
+feat: 添加xx功能
+docs: update install info
+```
+
 ## contributors
 
 - [@yugasun](https://github.com/yugasun/)
