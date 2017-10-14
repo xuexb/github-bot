@@ -12,7 +12,7 @@ const {
 
 const comment = [
     'hi @{user}，非常感谢您的反馈，',
-    '但是由于您没有使用 [规范的issue](https://github.com/xuexb/github-bot) 格式， 将直接被关闭， 谢谢！'
+    '但是由于您没有使用 [规范的issue](https://github.com/xuexb/github-bot#issue-规则) 格式， 将直接被关闭， 谢谢！'
 ].join('');
 
 const match = str => {
