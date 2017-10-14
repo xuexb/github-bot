@@ -65,5 +65,32 @@ module.exports = {
             number,
             labels: Array.isArray(labels) ? labels : [labels]
         });
+    },
+
+    createRelease(payload, {tag_name, target_commitish, name, body, draft, prerelease}) {
+        const owner = payload.repository.owner.login;
+        const repo = payload.repository.name;
+
+        github.repos.createRelease({
+            owner,
+            repo,
+            tag_name,
+            target_commitish,
+            name,
+            body,
+            draft,
+            prerelease
+        });
+    },
+
+    getReleaseByTag(payload, {tag_name}) {
+        const owner = payload.repository.owner.login;
+        const repo = payload.repository.name;
+
+        return github.repos.getReleaseByTag({
+            owner,
+            repo,
+            tag: tag_name
+        });
     }
 };

@@ -1,3 +1,4 @@
+const format = require('string-template');
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
@@ -34,13 +35,23 @@ const utils = {
         }
     },
 
-    getActionLog({dir, before, after, action}) {
-        return execSync(`cd ${dir} && FORMAT="- %s, by @%cn"
-git log ${before}..${after} --no-merges --pretty=format:"$FORMAT" | grep ${action}`).toString();
-
+    getFirstCommitHash({dir}) {
+        return execSync(`cd ${dir} && git log --oneline --pretty=format:"%h"`).toString()
+            .split(/\n+/).slice(-1)[0];
     },
 
-    cloneRepo(url, repo) {
+    getCommitLog(options) {
+        const shell = [
+            'cd {dir}',
+            options.hash
+                ? 'git log {before}..{after} --no-merges --pretty=format:"- [%h]({html_url}/commit/%H) - %s, by @%cn"'
+                : 'git log {before}..{after} --no-merges --pretty=format:"- %s, by @%cn"'
+        ].join(' && ');
+
+        return execSync(format(shell, options)).toString().split(/\n+/);
+    },
+
+    cloneRepo({url, repo}) {
         const repoDir = path.resolve(__dirname, '../github/', repo);
 
         if (!utils.isDirectory(repoDir)) {
@@ -52,7 +63,7 @@ git log ${before}..${after} --no-merges --pretty=format:"$FORMAT" | grep ${actio
         return repoDir;
     },
 
-    getTags(dir) {
+    getTags({dir}) {
         return execSync(`cd ${dir} && git tag -l`).toString().split(/\n+/).filter(tag => !!tag).reverse();
     }
 };
