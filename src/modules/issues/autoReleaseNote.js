@@ -4,7 +4,7 @@
  */
 
 const {getReleaseByTag, createRelease} = require('../../github');
-const {cloneRepo, getTags, getFirstCommitHash, getCommitLog} = require('../../utils');
+const {updateRepo, getTags, getFirstCommitHash, getCommitLog} = require('../../utils');
 
 const RELEASE_CHANGE_MAP = {
     document: 'docs',
@@ -18,7 +18,7 @@ function autoReleaseNote(on) {
         getReleaseByTag(payload, {
             tag_name: payload.ref
         }).then(() => {}, () => {
-            const repoDir = cloneRepo({
+            const repoDir = updateRepo({
                 url: payload.repository.clone_url,
                 repo
             });
