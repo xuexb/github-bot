@@ -6,6 +6,7 @@
 - [x] 当 issue 标记 label 为 `need demo`时，自动回复，需要相关demo
 - [x] issue 自动 `assign` 给指定人员
 - [x] 当往远程第一次推送新版本号时，自动列出最新版本距离上一版本的 commit log 并发布 release notes
+- [ ] 发 PR 时标题不规范时提醒修改
 
 ## issue 规则
 
