@@ -15,6 +15,13 @@ github.authenticate({
 });
 
 module.exports = {
+
+    /**
+     * 评论 issue
+     *
+     * @param {Object} payload data
+     * @param {string} body 评论内容
+     */
     commentIssue(payload, body) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
@@ -28,6 +35,11 @@ module.exports = {
         });
     },
 
+    /**
+     * 关闭 issue
+     *
+     * @param {Object} payload data
+     */
     closeIssue(payload) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
@@ -41,6 +53,12 @@ module.exports = {
         });
     },
 
+    /**
+     * 分派作者到 issues
+     *
+     * @param {Object} payload data
+     * @param {string | Array} assign  用户id
+     */
     addAssigneesToIssue(payload, assign) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
@@ -54,6 +72,12 @@ module.exports = {
         });
     },
 
+    /**
+     * 添加标签到 issue
+     *
+     * @param {Object} payload data
+     * @param {string | Array} labels  标签
+     */
     addLabelsToIssue(payload, labels) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
@@ -67,6 +91,17 @@ module.exports = {
         });
     },
 
+    /**
+     * 创建发布
+     *
+     * @param  {Object} payload                  data
+     * @param  {string} options.tag_name         tag名
+     * @param  {string} options.target_commitish tag hash
+     * @param  {string} options.name             标题
+     * @param  {string} options.body             内容
+     * @param  {boolean} options.draft            是否为草稿
+     * @param  {boolean} options.prerelease       是否预发布
+     */
     createRelease(payload, {tag_name, target_commitish, name, body, draft, prerelease}) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
@@ -83,6 +118,14 @@ module.exports = {
         });
     },
 
+    /**
+     * 根据tag获取发布信息
+     *
+     * @param  {Object} payload          data
+     * @param  {string} options.tag_name tag名
+     *
+     * @return {Promise}
+     */
     getReleaseByTag(payload, {tag_name}) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
