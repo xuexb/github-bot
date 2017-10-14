@@ -22,7 +22,10 @@ app.use(ctx => {
         const payload = ctx.request.body;
         const action = payload.action || payload.ref_type;
 
-        eventName += `_${action}`;
+        if (action) {
+            eventName += `_${action}`;
+        }
+
         console.log(`receive event: ${eventName}`);
 
         if (payload.sender.login !== process.env.GITHUB_BOT_NAME) {
