@@ -110,6 +110,20 @@ const utils = {
      */
     getTags({dir}) {
         return execSync(`cd ${dir} && git tag -l`).toString().split(/\n+/).filter(tag => !!tag).reverse();
+    },
+
+    /**
+     * 获取 package.json 里的 config.github-bot
+     *
+     * @return {Object}
+     */
+    getPkgConfig() {
+        const pkg = require('../package.json');
+        const config = Object.assign({
+            'github-bot': {}
+        }, pkg.config);
+
+        return config['github-bot'];
     }
 };
 

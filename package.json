@@ -33,6 +33,13 @@
         },
         "validate-commit-msg": {
             "types": ["feat", "fix", "docs", "style", "test", "chore", "revert", "close"]
+        },
+        "github-bot": {
+            "lableToAuthor": {
+                "bug": "xuexb",
+                "enhancement": "xuexb",
+                "question": "xuexb"
+            }
         }
     },
     "os": ["darwin", "linux"],

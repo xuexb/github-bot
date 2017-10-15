@@ -3,13 +3,11 @@
  * @author xuexb <fe.xiaowu@gmail.com>
  */
 
+const {getPkgConfig} = require('../../utils');
 const {addAssigneesToIssue} = require('../../github');
 
-const assignMap = {
-    bug: 'xuexb',
-    enhancement: 'xuexb',
-    question: 'xuexb'
-};
+const config = getPkgConfig();
+const assignMap = config.lableToAuthor || {};
 
 function autoAssign(on) {
     on('issues_labeled', ({payload, repo}) => {
