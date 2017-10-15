@@ -4,9 +4,10 @@
  */
 
 const GitHub = require('github');
+const {toArray} = require('./utils');
 
 const github = new GitHub({
-    debug: process.env.NODE_ENV === 'development'
+    debug: false//process.env.NODE_ENV === 'development'
 });
 
 github.authenticate({
@@ -15,6 +16,62 @@ github.authenticate({
 });
 
 module.exports = {
+
+    github,
+
+    /**
+     * issue 是否包含某 label
+     *
+     * @param {Object} payload data
+     * @param {string} body 评论内容
+     */
+    issueHasLabel(payload, label) {
+        const owner = payload.repository.owner.login;
+        const repo = payload.repository.name;
+        const number = payload.issue.number;
+
+        return new Promise((resolve, reject) => {
+            github.issues.getIssueLabels({
+                owner,
+                repo,
+                number
+            }).then(res => {
+                if (res.data.map(v => v.name).indexOf(label) > -1) {
+                    resolve();
+                }
+                else {
+                    reject();
+                }
+            }, reject);
+        });
+    },
+
+    /**
+     * PR 是否包含某 label
+     *
+     * @param {Object} payload data
+     * @param {string} body 评论内容
+     */
+    pullRequestHasLabel(payload, label) {
+        const owner = payload.repository.owner.login;
+        const repo = payload.repository.name;
+        const number = payload.pull_request.number;
+
+        return new Promise((resolve, reject) => {
+            github.issues.getIssueLabels({
+                owner,
+                repo,
+                number
+            }).then(res => {
+                if (res.data.map(v => v.name).indexOf(label) > -1) {
+                    resolve();
+                }
+                else {
+                    reject();
+                }
+            }, reject);
+        });
+    },
 
     /**
      * 评论 issue
@@ -26,6 +83,25 @@ module.exports = {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
         const number = payload.issue.number;
+
+        github.issues.createComment({
+            owner,
+            repo,
+            number,
+            body
+        });
+    },
+
+    /**
+     * 评论 PR
+     *
+     * @param {Object} payload data
+     * @param {string} body 评论内容
+     */
+    commentPullRequest(payload, body) {
+        const owner = payload.repository.owner.login;
+        const repo = payload.repository.name;
+        const number = payload.pull_request.number;
 
         github.issues.createComment({
             owner,
@@ -92,6 +168,63 @@ module.exports = {
     },
 
     /**
+     * 添加标签到 PR
+     *
+     * @param {Object} payload data
+     * @param {string | Array} labels  标签
+     */
+    addLabelsToPullRequest(payload, labels) {
+        const owner = payload.repository.owner.login;
+        const repo = payload.repository.name;
+        const number = payload.pull_request.number;
+
+        github.issues.addLabels({
+            owner,
+            repo,
+            number,
+            labels: Array.isArray(labels) ? labels : [labels]
+        });
+    },
+
+    /**
+     * 删除 PR 标签
+     *
+     * @param {Object} payload data
+     * @param {string} name  标签名
+     */
+    removeLabelsToPullRequest(payload, name) {
+        const owner = payload.repository.owner.login;
+        const repo = payload.repository.name;
+        const number = payload.pull_request.number;
+
+        github.issues.removeLabel({
+            owner,
+            repo,
+            number,
+            name
+        });
+    },
+
+    /**
+     * 删除 issue 标签
+     *
+     * @param {Object} payload data
+     * @param {string} name  标签名
+     */
+    removeLabelsToIssue(payload, name) {
+        const owner = payload.repository.owner.login;
+        const repo = payload.repository.name;
+        const number = payload.issues.number;
+
+        github.issues.removeLabel({
+            owner,
+            repo,
+            number,
+            name
+        });
+    },
+
+    /**
      * 创建发布
      *
      * @param  {Object} payload                  data
@@ -135,5 +268,28 @@ module.exports = {
             repo,
             tag: tag_name
         });
-    }
+    },
+
+    /**
+     * 创建 review 请求
+     *
+     * @param  {Object} payload                             data
+     * @param  {Array | string} options.reviewers           reviewer
+     * @param  {Array | string} options.team_reviewers      team_reviewers
+     *
+     * @return {Promise}
+     */
+    createReviewRequest(payload, {reviewers, team_reviewers}) {
+        const owner = payload.repository.owner.login;
+        const repo = payload.repository.name;
+        const number = payload.pull_request.number;
+
+        return github.pullRequests.createReviewRequest({
+            owner,
+            repo,
+            number,
+            reviewers: toArray(reviewers),
+            team_reviewers: toArray(team_reviewers)
+        });
+    },
 };

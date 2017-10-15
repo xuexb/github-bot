@@ -24,17 +24,6 @@ const utils = {
     },
 
     /**
-     * 获取项目名
-     *
-     * @param  {string} url xuexb/repo
-     *
-     * @return {string}     repo
-     */
-    getRepo(url) {
-        return url.split('/')[1];
-    },
-
-    /**
      * 目录是否存在
      *
      * @param  {string}  file 路径
@@ -124,6 +113,37 @@ const utils = {
         }, pkg.config);
 
         return config['github-bot'];
+    },
+
+    /**
+     * 获取 commit log 前缀白名单
+     *
+     * @return {Array}
+     */
+    getPkgCommitPrefix() {
+        const pkg = require('../package.json');
+        const config = Object.assign({
+            'validate-commit-msg': {
+                'types': []
+            }
+        }, pkg.config);
+
+        return config['validate-commit-msg'].types;
+    },
+
+    /**
+     * 转化成 Array
+     *
+     * @param  {string | Array} str 目标值
+     *
+     * @return {Array}
+     */
+    toArray(str) {
+        if (str) {
+            return Array.isArray(str) ? str : [str];
+        }
+
+        return str;
     }
 };
 

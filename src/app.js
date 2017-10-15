@@ -9,8 +9,10 @@ const EventEmitter = require('events');
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const requireDir = require('require-dir');
-const {verifySignature, getRepo} = require('./utils');
+const {verifySignature} = require('./utils');
 const issueActions = requireDir('./modules/issues');
+const pullRequestActions = requireDir('./modules/pull_request');
+const releasesActions = requireDir('./modules/releases');
 const app = new Koa();
 const githubEvent = new EventEmitter();
 
@@ -28,12 +30,10 @@ app.use(ctx => {
 
         console.log(`receive event: ${eventName}`);
 
-        if (payload.sender.login !== process.env.GITHUB_BOT_NAME) {
-            githubEvent.emit(eventName, {
-                repo: getRepo(payload.repository.full_name),
-                payload
-            });
-        }
+        githubEvent.emit(eventName, {
+            repo: payload.repository.name,
+            payload
+        });
 
         ctx.body = 'Ok.';
     }
@@ -42,8 +42,11 @@ app.use(ctx => {
     }
 });
 
-Object.keys(issueActions).forEach((key) => {
-    issueActions[key](githubEvent.on.bind(githubEvent));
+
+const actions = Object.assign({}, issueActions, pullRequestActions, releasesActions);
+Object.keys(actions).forEach((key) => {
+    actions[key](githubEvent.on.bind(githubEvent));
+    console.log(`bind ${key} success!`);
 });
 
 const port = 8000;

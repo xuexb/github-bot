@@ -13,7 +13,7 @@ const RELEASE_CHANGE_MAP = {
     close: 'close'
 };
 
-function autoReleaseNote(on) {
+module.exports = on => {
     on('create_tag', ({payload, repo}) => {
         getReleaseByTag(payload, {
             tag_name: payload.ref
@@ -78,5 +78,3 @@ function autoReleaseNote(on) {
         });
     });
 }
-
-module.exports = autoReleaseNote;
