@@ -42,7 +42,7 @@ url: http://www.example.com
 
 ### commit log 和 PR 标题规则
 
-所有标题必须以 `功能关键字:` 开头
+所有标题必须以 `功能关键字:` 开头
 
 > 参考： <http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html>
 
