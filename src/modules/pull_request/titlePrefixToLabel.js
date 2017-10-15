@@ -14,7 +14,8 @@ const getAction = title => {
 
 const ACTION_TO_LABEL_MAP = {
     feat: 'enhancement',
-    fix: 'bug'
+    fix: 'bug',
+    docs: 'document'
 };
 
 const handle = ({payload, repo}) => {
