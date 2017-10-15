@@ -16,7 +16,7 @@ const comment = [
 ].join('');
 
 const match = str => {
-    return /node version:\s*(\d\.?)+/.test(str) && /url:\s*(https?:)?\/\/(\w{3,})/.test(str);
+    return /node version:\s*(\d\.?)+/.test(str);
 };
 
 function replyInvalid(on) {

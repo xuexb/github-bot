@@ -26,7 +26,6 @@ Github robot
 
 ```
 node version: 版本号
-url: http://www.example.com
 ```
 
 ### labels 规则
