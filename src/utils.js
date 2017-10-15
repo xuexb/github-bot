@@ -16,6 +16,13 @@ const utils = {
         return body.includes(`@${process.env.GITHUB_BOT_NAME}`);
     },
 
+    /**
+     * 验证请求
+     *
+     * @param  {Object} request req
+     *
+     * @return {boolean}
+     */
     verifySignature(request) {
         let signature = crypto.createHmac('sha1', process.env.GITHUB_SECRET_TOKEN)
             .update(request.rawBody)
