@@ -3,7 +3,9 @@
   "description": "Github bot",
   "version": "0.0.1",
   "main": "src/app.js",
-  "scripts": {},
+  "scripts": {
+    "start": "NODE_ENV=development node src/app"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/xuexb/github-bot.git"

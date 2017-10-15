@@ -65,6 +65,32 @@ feat: 添加xx功能
 docs: update install info
 ```
 
+## 如何使用
+
+### 1. 创建 access tokens
+
+<https://github.com/settings/tokens> （_需要在 .env 里配置_）
+
+### 2. 创建 webhook
+
+https://github.com/用户名/项目名/settings/hooks/new
+
+- Payload URL: www.example.com:8000
+- Content type: application/json
+- trigger: Send me everything.
+- Secret: xxx （_需要在 .env 里配置_）
+
+### 3. run server
+
+```
+npm install
+cp env .env
+vim .env
+npm start
+```
+
+###
+
 ## contributors
 
 - [@yugasun](https://github.com/yugasun/)
