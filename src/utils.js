@@ -9,6 +9,7 @@ const fs = require('fs');
 const crypto = require('crypto');
 const {fixedTimeComparison} = require('cryptiles');
 const {execSync, exec} = require('child_process');
+const gitPullOrClone = require('git-pull-or-clone');
 
 const utils = {
     mentioned(body) {
@@ -85,22 +86,16 @@ const utils = {
      *
      * @return {Promise}
      */
-    updateRepo({repo}) {
+    updateRepo({url, repo}) {
         const repoDir = path.resolve(__dirname, '../github/', repo);
 
-        if (!utils.isDirectory(repoDir)) {
-            throw new Error(`${repoDir} 不是github目录!`);
-        }
-
         return new Promise((resolve, reject) => {
-            exec(`cd ${repoDir} && git pull`, err => {
+            gitPullOrClone(url, repoDir, err => {
                 if (err) {
                     return reject(err);
                 }
 
-                setTimeout(() => {
-                    resolve(repoDir);
-                }, 1000);
+                resolve(repoDir);
             });
         });
     },

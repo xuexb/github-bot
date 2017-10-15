@@ -1,50 +1,59 @@
 {
-    "name": "github-bot",
-    "description": "Github bot",
-    "version": "0.0.1",
-    "main": "src/app.js",
-    "scripts": {},
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/xuexb/github-bot.git"
+  "name": "github-bot",
+  "description": "Github bot",
+  "version": "0.0.1",
+  "main": "src/app.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xuexb/github-bot.git"
+  },
+  "author": "xuexb <fe.xiaowu@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xuexb/github-bot/issues"
+  },
+  "homepage": "https://github.com/xuexb/github-bot#readme",
+  "dependencies": {
+    "cryptiles": "3.1.2",
+    "crypto": "^1.0.1",
+    "dotenv": "^4.0.0",
+    "github": "^11.0.0",
+    "koa": "^2.3.0",
+    "koa-bodyparser": "^4.2.0",
+    "require-dir": "^0.3.2",
+    "string-template": "^1.0.0"
+  },
+  "engines": {
+    "node": ">= 4"
+  },
+  "config": {
+    "ghooks": {
+      "commit-msg": "validate-commit-msg"
     },
-    "author": "xuexb <fe.xiaowu@gmail.com>",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/xuexb/github-bot/issues"
+    "validate-commit-msg": {
+      "types": [
+        "feat",
+        "fix",
+        "docs",
+        "style",
+        "test",
+        "chore",
+        "revert",
+        "close"
+      ]
     },
-    "homepage": "https://github.com/xuexb/github-bot#readme",
-    "dependencies": {
-        "cryptiles": "3.1.2",
-        "crypto": "^1.0.1",
-        "dotenv": "^4.0.0",
-        "github": "^11.0.0",
-        "koa": "^2.3.0",
-        "koa-bodyparser": "^4.2.0",
-        "require-dir": "^0.3.2",
-        "string-template": "^1.0.0"
-    },
-    "engines": {
-        "node": ">= 4"
-    },
-    "config": {
-        "ghooks": {
-            "commit-msg": "validate-commit-msg"
-        },
-        "validate-commit-msg": {
-            "types": ["feat", "fix", "docs", "style", "test", "chore", "revert", "close"]
-        },
-        "github-bot": {
-            "lableToAuthor": {
-                "bug": "xuexb",
-                "enhancement": "xuexb",
-                "question": "xuexb"
-            }
-        }
-    },
-    "os": ["darwin", "linux"],
-    "devDependencies": {
-        "ghooks": "^2.0.0",
-        "validate-commit-msg": "^2.14.0"
+    "github-bot": {
+      "lableToAuthor": {
+        "bug": "xuexb",
+        "enhancement": "xuexb",
+        "question": "xuexb"
+      }
     }
+  },
+  "devDependencies": {
+    "ghooks": "^2.0.0",
+    "git-pull-or-clone": "^1.1.0",
+    "validate-commit-msg": "^2.14.0"
+  }
 }

@@ -75,7 +75,7 @@ module.exports = on => {
                         body: body.join('\n')
                     });
                 }
-            });
+            }).catch(err => console.error(err));
         });
     });
 }
