@@ -7,7 +7,7 @@ const GitHub = require('github');
 const {toArray} = require('./utils');
 
 const github = new GitHub({
-    debug: false//process.env.NODE_ENV === 'development'
+    debug: process.env.NODE_ENV === 'development'
 });
 
 github.authenticate({
