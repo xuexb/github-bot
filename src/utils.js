@@ -107,12 +107,18 @@ const utils = {
     /**
      * 获取本地 git 目录的 tag 列表
      *
-     * @param  {string} options.dir git 目录
+     * @param  {Object} options 配置
+     * @param {string} options.dir git 目录
      *
      * @return {Array}
      */
-    getTags({dir}) {
-        return execSync(`cd ${dir} && git tag -l`).toString().split(/\n+/).filter(tag => !!tag).reverse();
+    getTags(options) {
+        const shell = [
+            'cd {dir}',
+            'git describe --tags `git rev-list --tags --abbrev=0` --abbrev=0 | uniq'
+        ].join(' && ');
+
+        return execSync(format(shell, options)).toString().split(/\n+/).filter(tag => !!tag);
     },
 
     /**
