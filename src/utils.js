@@ -12,9 +12,6 @@ const {execSync, exec} = require('child_process');
 const gitPullOrClone = require('git-pull-or-clone');
 
 const utils = {
-    mentioned(body) {
-        return body.includes(`@${process.env.GITHUB_BOT_NAME}`);
-    },
 
     /**
      * 验证请求
