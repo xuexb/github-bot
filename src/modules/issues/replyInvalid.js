@@ -16,7 +16,7 @@ const comment = [
 ].join('');
 
 const match = str => {
-    return /node version:\s*(\d\.?)+/.test(str);
+    return /node version:\s*[vV]?(\d\.?)+/.test(str);
 };
 
 function replyInvalid(on) {
