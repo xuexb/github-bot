@@ -7,7 +7,7 @@ const {getPkgConfig} = require('../../utils');
 const {createReviewRequest} = require('../../github');
 
 const config = getPkgConfig();
-const assignMap = config.lableToAuthor || {};
+const assignMap = config.labelToAuthor || {};
 
 module.exports = on => {
     on('pull_request_labeled', ({payload, repo}) => {

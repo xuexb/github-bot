@@ -44,7 +44,7 @@
       ]
     },
     "github-bot": {
-      "lableToAuthor": {
+      "labelToAuthor": {
         "bug": "xuexb",
         "enhancement": "xuexb",
         "question": "xuexb"

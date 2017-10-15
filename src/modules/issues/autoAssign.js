@@ -7,7 +7,7 @@ const {getPkgConfig} = require('../../utils');
 const {addAssigneesToIssue} = require('../../github');
 
 const config = getPkgConfig();
-const assignMap = config.lableToAuthor || {};
+const assignMap = config.labelToAuthor || {};
 
 function autoAssign(on) {
     on('issues_labeled', ({payload, repo}) => {
