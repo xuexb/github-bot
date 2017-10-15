@@ -1,23 +1,35 @@
 # github-bot
 
-## list
+Github robot
+
+## 功能 - Feature
+
+### Issue
 
 - [x] 不规范 issue 自动关闭
-- [x] 当 issue 标记 label 为 need demo 时，自动回复，需要相关demo
+- [x] 当 issue 标记 label 为 `need demo` 时，自动回复，需要相关demo
 - [x] issue 自动 assign 给指定人员，需要配置 `package.json` 中 `config.github-bot.lableToAuthor` 映射
-- [x] 当往远程第一次推送新版本号时，自动列出最新版本距离上一版本的 commit log 并发布 release notes ，会把项目 clone 到 `./github/{项目名}/` 去分析 commit log
+
+### Pull Request
+
 - [x] 发 PR 时根据打的 label 自动添加指定的 reviewer ，需要配置 `package.json` 中 `config.github-bot.lableToAuthor` 映射
-- [x] 发 PR 时标题不规范时提醒修改，需要配置 `package.json` 中 `config.validate-commit-msg.type` 前缀，标题必须以 `前缀:` 开头
+- [x] 发 PR 时标题不规范时提醒修改，需要配置 `package.json` 中 `config.validate-commit-msg.type` 功能关键字，标题必须以 `功能关键字:` 开头
 - [x] 发 PR 时自动根据标题的 [PR 标题规则](https://github.com/xuexb/github-bot#commit-log-和-pr-标题规则) 前缀生成对应的 label ， `feat->enhancement, fix->bug`
 
-## issue 规则
+### Release
+
+- [x] 当往远程第一次推送新版本号时，自动列出最新版本距离上一版本的 commit log 并发布 release notes ，会把项目 clone 到 `./github/{项目名}/` 去分析 commit log
+
+## 规则 - Rules
+
+### issue 规则
 
 ```
 node version: 版本号
 url: http://www.example.com
 ```
 
-## labels 规则
+### labels 规则
 
 - invalid - 未定义, 内容 不规范
 - need demo - 需要提供预览链接
@@ -28,9 +40,13 @@ url: http://www.example.com
 - question - 提问
 - wontfix - 不修复的问题
 
-## commit log 和 PR 标题规则
+### commit log 和 PR 标题规则
+
+所有标题必须以 `功能关键字:` 开头
 
 > 参考： <http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html>
+
+功能关键字介绍如下：
 
 - feat - 新功能（feature）
 - fix - 修补bug
@@ -41,7 +57,7 @@ url: http://www.example.com
 - revert - 撤销
 - close - 关闭 issue
 
-如：
+示例：
 
 ```
 close: #1, #3
@@ -53,3 +69,7 @@ docs: update install info
 
 - [@yugasun](https://github.com/yugasun/)
 - [@xuexb](https://github.com/xuexb/)
+
+## Liscense
+
+MIT
