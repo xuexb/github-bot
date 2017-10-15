@@ -51,6 +51,7 @@
       }
     }
   },
+  "os": ["darwin", "linux"],
   "devDependencies": {
     "ghooks": "^2.0.0",
     "git-pull-or-clone": "xuexb/git-pull-or-clone",
