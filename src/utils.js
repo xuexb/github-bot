@@ -78,16 +78,31 @@ const utils = {
         return execSync(format(shell, options)).toString().split(/\n+/);
     },
 
-    updateRepo({url, repo}) {
+    /**
+     * 更新 github 项目
+     *
+     * @param  {string} options.repo 项目名
+     *
+     * @return {Promise}
+     */
+    updateRepo({repo}) {
         const repoDir = path.resolve(__dirname, '../github/', repo);
 
         if (!utils.isDirectory(repoDir)) {
             throw new Error(`${repoDir} 不是github目录!`);
         }
 
-        execSync(`cd ${repoDir} && git pull`);
+        return new Promise((resolve, reject) => {
+            exec(`cd ${repoDir} && git pull`, err => {
+                if (err) {
+                    return reject(err);
+                }
 
-        return repoDir;
+                setTimeout(() => {
+                    resolve(repoDir);
+                }, 1000);
+            });
+        });
     },
 
     /**
