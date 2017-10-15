@@ -76,8 +76,8 @@ const utils = {
         const shell = [
             'cd {dir}',
             options.hash
-                ? 'git log {before}..{after} --no-merges --pretty=format:"- [%h]({html_url}/commit/%H) - %s, by @%cn"'
-                : 'git log {before}..{after} --no-merges --pretty=format:"- %s, by @%cn"'
+                ? 'git log {before}..{after} --no-merges --pretty=format:"- [%h]({html_url}/commit/%H) - %s, by @%aN <<%ae>>"'
+                : 'git log {before}..{after} --no-merges --pretty=format:"- %s, by @%aN <<%ae>>"'
         ].join(' && ');
 
         return execSync(format(shell, options)).toString().split(/\n+/);
