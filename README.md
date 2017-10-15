@@ -5,7 +5,7 @@
 - [x] 不规范 issue 自动关闭
 - [x] 当 issue 标记 label 为 need demo 时，自动回复，需要相关demo
 - [x] issue 自动 assign 给指定人员，需要配置 `package.json` 中 `config.github-bot.lableToAuthor` 映射
-- [x] 当往远程第一次推送新版本号时，自动列出最新版本距离上一版本的 commit log 并发布 release notes ，需要所对应项目克隆到 `./github/{项目名}`
+- [x] 当往远程第一次推送新版本号时，自动列出最新版本距离上一版本的 commit log 并发布 release notes ，会把项目 clone 到 `./github/{项目名}/` 去分析 commit log
 - [x] 发 PR 时根据打的 label 自动添加指定的 reviewer ，需要配置 `package.json` 中 `config.github-bot.lableToAuthor` 映射
 - [x] 发 PR 时标题不规范时提醒修改，需要配置 `package.json` 中 `config.validate-commit-msg.type` 前缀，标题必须以 `前缀:` 开头
 - [x] 发 PR 时自动根据标题的 [PR 标题规则](https://github.com/xuexb/github-bot#commit-log-和-pr-标题规则) 前缀生成对应的 label ， `feat->enhancement, fix->bug`
@@ -53,7 +53,3 @@ docs: update install info
 
 - [@yugasun](https://github.com/yugasun/)
 - [@xuexb](https://github.com/xuexb/)
-
-## todo
-
-- [ ] 现在必须手动的克隆下项目，使用 execSync 克隆老是报错
