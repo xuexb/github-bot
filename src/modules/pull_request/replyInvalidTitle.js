@@ -4,7 +4,7 @@
  */
 
 const format = require('string-template');
-const {getPkgCommitPrefix} = require('../../utils');
+const { getPkgCommitPrefix } = require('../../utils');
 const {
     commentPullRequest,
     addLabelsToPullRequest,
@@ -29,7 +29,7 @@ const commentError = [
 
 module.exports = on => {
     if (actions.length) {
-        on('pull_request_opened', ({payload, repo}) => {
+        on('pull_request_opened', ({ payload, repo }) => {
             if (!match(payload.pull_request.title)) {
                 commentPullRequest(
                     payload,
@@ -42,18 +42,17 @@ module.exports = on => {
             }
         });
 
-        on('pull_request_edited', ({payload, repo}) => {
+        on('pull_request_edited', async ({ payload, repo }) => {
             if (match(payload.pull_request.title)) {
-                pullRequestHasLabel(payload, 'invalid').then(() => {
-                    commentPullRequest(
-                        payload,
-                        format(commentSuccess, {
-                            user: payload.pull_request.user.login
-                        })
-                    );
+                await pullRequestHasLabel(payload, 'invalid')
+                commentPullRequest(
+                    payload,
+                    format(commentSuccess, {
+                        user: payload.pull_request.user.login
+                    })
+                );
 
-                    removeLabelsToPullRequest(payload, 'invalid');
-                });
+                removeLabelsToPullRequest(payload, 'invalid');
             }
         });
     }

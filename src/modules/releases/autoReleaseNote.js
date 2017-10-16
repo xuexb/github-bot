@@ -3,8 +3,8 @@
  * @author xuexb <fe.xiaowu@gmail.com>
  */
 
-const {getReleaseByTag, createRelease} = require('../../github');
-const {updateRepo, getTags, getFirstCommitHash, getCommitLog} = require('../../utils');
+const { getTags, compareCommits, getReleaseByTag, createRelease } = require('../../github');
+const { updateRepo } = require('../../utils');
 
 const RELEASE_CHANGE_MAP = {
     document: 'docs',
@@ -14,68 +14,63 @@ const RELEASE_CHANGE_MAP = {
 };
 
 module.exports = on => {
-    on('create_tag', ({payload, repo}) => {
-        getReleaseByTag(payload, {
+    on('create_tag', async ({ payload, repo }) => {
+        await getReleaseByTag(payload, {
             tag_name: payload.ref
-        }).then(() => {}, () => {
-            updateRepo({
+        })
+        try {
+            const repoDir = await updateRepo({
                 url: payload.repository.clone_url,
                 repo
-            }).then(repoDir => {
-                const tags = getTags({
-                    dir: repoDir
-                });
-                const after = tags[0];
-                const before = tags.length > 1 ? tags[1] : getFirstCommitHash({
-                    dir: repoDir
-                });
-                const log = getCommitLog({
-                    dir: repoDir,
-                    before,
-                    after
-                });
+            });
+            const tags = getTags(payload);
+            const head = tags[0];
+            const base = tags.length > 1 ? tags[1] : tags[0];
 
-                const hash = getCommitLog({
-                    dir: repoDir,
-                    before,
-                    after,
-                    html_url: payload.repository.html_url,
-                    hash: true
-                });
+            const commits = await compareCommits(payload, {
+                base,
+                head
+            }).commits;
 
-                const changes = Object.keys(RELEASE_CHANGE_MAP).map(title => {
-                    return {
-                        title,
-                        data: log.filter(log => log.indexOf(`- ${RELEASE_CHANGE_MAP[title]}:`) === 0)
-                    }
-                }).filter(v => v.data.length);
-
-                let body = [];
-
-                if (changes.length) {
-                    body.push('## Notable changes\n');
-                    changes.forEach(v => {
-                        body.push([
-                            `- ${v.title}`
-                        ]);
-
-                        v.data.forEach(line => body.push('    ' + line));
-                    });
+            const changes = Object.keys(RELEASE_CHANGE_MAP).map(title => {
+                return {
+                    title,
+                    data: commits.filter(commit => commit.commit.message.indexOf(`- ${RELEASE_CHANGE_MAP[title]}:`) === 0)
                 }
+            }).filter(v => v.data.length);
 
-                if (hash.length) {
-                    body.push('\n## Commits\n');
-                    body = body.concat(hash);
-                }
+            const hashChanges = commits.map((commit) => {
+                return `- [${commit.sha.substr(0,7)}](${commit.html_url}) - ${commit.commit.message}, by @${commit.commit.author.name} <<${commit.commit.author.email}>>`;
+            });
 
-                if (body.length) {
-                    createRelease(payload, {
-                        tag_name: payload.ref,
-                        name: `${payload.ref} @${payload.repository.owner.login}`,
-                        body: body.join('\n')
-                    });
-                }
-            }).catch(err => console.error(err));
-        });
+            let body = [];
+
+            if (changes.length) {
+                body.push('## Notable changes\n');
+                changes.forEach(v => {
+                    body.push([
+                        `- ${v.title}`
+                    ]);
+
+                    v.data.forEach(line => body.push('    ' + line));
+                });
+            }
+
+            if (hashChanges.length) {
+                body.push('\n## Commits\n');
+                body = body.concat(hashChanges);
+            }
+
+            if (body.length) {
+                createRelease(payload, {
+                    tag_name: payload.ref,
+                    name: `${payload.ref} @${payload.repository.owner.login}`,
+                    body: body.join('\n')
+                });
+            }
+        } catch (err) {
+            console.error(err);
+        }
+
     });
 }

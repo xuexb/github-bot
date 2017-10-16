@@ -4,7 +4,7 @@
  */
 
 const GitHub = require('github');
-const {toArray} = require('./utils');
+const { toArray } = require('./utils');
 
 const github = new GitHub({
     debug: process.env.NODE_ENV === 'development'
@@ -25,25 +25,24 @@ module.exports = {
      * @param {Object} payload data
      * @param {string} body 评论内容
      */
-    issueHasLabel(payload, label) {
+    async issueHasLabel(payload, label) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
         const number = payload.issue.number;
 
-        return new Promise((resolve, reject) => {
-            github.issues.getIssueLabels({
+        try {
+            const res = github.issues.getIssueLabels({
                 owner,
                 repo,
                 number
-            }).then(res => {
-                if (res.data.map(v => v.name).indexOf(label) > -1) {
-                    resolve();
-                }
-                else {
-                    reject();
-                }
-            }, reject);
-        });
+            });
+
+            if (res.data.map(v => v.name).indexOf(label) === -1) {
+                Promise.reject(new Error('issue no label'));
+            }
+        } catch (e) {
+            Promise.reject(e);
+        }
     },
 
     /**
@@ -52,25 +51,23 @@ module.exports = {
      * @param {Object} payload data
      * @param {string} body 评论内容
      */
-    pullRequestHasLabel(payload, label) {
+    async pullRequestHasLabel(payload, label) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
         const number = payload.pull_request.number;
 
-        return new Promise((resolve, reject) => {
-            github.issues.getIssueLabels({
+        try {
+            const res = await github.issues.getIssueLabels({
                 owner,
                 repo,
                 number
-            }).then(res => {
-                if (res.data.map(v => v.name).indexOf(label) > -1) {
-                    resolve();
-                }
-                else {
-                    reject();
-                }
-            }, reject);
-        });
+            })
+            if (res.data.map(v => v.name).indexOf(label) === -1) {
+                Promise.reject(new Error('pull request no label'))
+            }
+        } catch (e) {
+            Promise.reject(e);
+        }
     },
 
     /**
@@ -79,17 +76,22 @@ module.exports = {
      * @param {Object} payload data
      * @param {string} body 评论内容
      */
-    commentIssue(payload, body) {
+    async commentIssue(payload, body) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
         const number = payload.issue.number;
 
-        github.issues.createComment({
-            owner,
-            repo,
-            number,
-            body
-        });
+        try {
+            const res = await github.issues.createComment({
+                owner,
+                repo,
+                number,
+                body
+            });
+            return res;
+        } catch (e) {
+            Promise.reject(e);
+        }
     },
 
     /**
@@ -98,17 +100,22 @@ module.exports = {
      * @param {Object} payload data
      * @param {string} body 评论内容
      */
-    commentPullRequest(payload, body) {
+    async commentPullRequest(payload, body) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
         const number = payload.pull_request.number;
 
-        github.issues.createComment({
-            owner,
-            repo,
-            number,
-            body
-        });
+        try {
+            const res = await github.issues.createComment({
+                owner,
+                repo,
+                number,
+                body
+            });
+            return res;
+        } catch (e) {
+            Promise.reject(e);
+        }
     },
 
     /**
@@ -116,17 +123,22 @@ module.exports = {
      *
      * @param {Object} payload data
      */
-    closeIssue(payload) {
+    async closeIssue(payload) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
         const number = payload.issue.number;
 
-        github.issues.edit({
-            owner,
-            repo,
-            number,
-            state: 'closed'
-        });
+        try {
+            const res = await github.issues.edit({
+                owner,
+                repo,
+                number,
+                state: 'closed'
+            });
+            return res;
+        } catch (e) {
+            Promise.reject(e);
+        }
     },
 
     /**
@@ -135,17 +147,22 @@ module.exports = {
      * @param {Object} payload data
      * @param {string | Array} assign  用户id
      */
-    addAssigneesToIssue(payload, assign) {
+    async addAssigneesToIssue(payload, assign) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
         const number = payload.issue.number;
 
-        github.issues.edit({
-            owner,
-            repo,
-            number,
-            assignees: Array.isArray(assign) ? assign : [assign]
-        });
+        try {
+            const res = await github.issues.edit({
+                owner,
+                repo,
+                number,
+                assignees: Array.isArray(assign) ? assign : [assign]
+            });
+            return res;
+        } catch (e) {
+            Promise.reject(e);
+        }
     },
 
     /**
@@ -154,17 +171,23 @@ module.exports = {
      * @param {Object} payload data
      * @param {string | Array} labels  标签
      */
-    addLabelsToIssue(payload, labels) {
+    async addLabelsToIssue(payload, labels) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
         const number = payload.issue.number;
 
-        github.issues.addLabels({
-            owner,
-            repo,
-            number,
-            labels: Array.isArray(labels) ? labels : [labels]
-        });
+        try {
+            const res = await github.issues.addLabels({
+                owner,
+                repo,
+                number,
+                labels: Array.isArray(labels) ? labels : [labels]
+            });
+            return res;
+        } catch (e) {
+            Promise.reject(e);
+        }
+
     },
 
     /**
@@ -173,17 +196,22 @@ module.exports = {
      * @param {Object} payload data
      * @param {string | Array} labels  标签
      */
-    addLabelsToPullRequest(payload, labels) {
+    async addLabelsToPullRequest(payload, labels) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
         const number = payload.pull_request.number;
 
-        github.issues.addLabels({
-            owner,
-            repo,
-            number,
-            labels: Array.isArray(labels) ? labels : [labels]
-        });
+        try {
+            const res = await github.issues.addLabels({
+                owner,
+                repo,
+                number,
+                labels: Array.isArray(labels) ? labels : [labels]
+            });
+            return res;
+        } catch (e) {
+            Promise.reject(e);
+        }
     },
 
     /**
@@ -192,17 +220,22 @@ module.exports = {
      * @param {Object} payload data
      * @param {string} name  标签名
      */
-    removeLabelsToPullRequest(payload, name) {
+    async removeLabelsToPullRequest(payload, name) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
         const number = payload.pull_request.number;
 
-        github.issues.removeLabel({
-            owner,
-            repo,
-            number,
-            name
-        });
+        try {
+            const res = await Fgithub.issues.removeLabel({
+                owner,
+                repo,
+                number,
+                name
+            });
+            return res;
+        } catch (e) {
+            Promise.reject(e);
+        }
     },
 
     /**
@@ -211,17 +244,22 @@ module.exports = {
      * @param {Object} payload data
      * @param {string} name  标签名
      */
-    removeLabelsToIssue(payload, name) {
+    async removeLabelsToIssue(payload, name) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
         const number = payload.issues.number;
+        try {
+            const res = await github.issues.removeLabel({
+                owner,
+                repo,
+                number,
+                name
+            });
+            return res;
+        } catch (e) {
+            Promise.reject(e);
+        }
 
-        github.issues.removeLabel({
-            owner,
-            repo,
-            number,
-            name
-        });
     },
 
     /**
@@ -235,20 +273,24 @@ module.exports = {
      * @param  {boolean} options.draft            是否为草稿
      * @param  {boolean} options.prerelease       是否预发布
      */
-    createRelease(payload, {tag_name, target_commitish, name, body, draft, prerelease}) {
+    async createRelease(payload, { tag_name, target_commitish, name, body, draft, prerelease }) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
-
-        github.repos.createRelease({
-            owner,
-            repo,
-            tag_name,
-            target_commitish,
-            name,
-            body,
-            draft,
-            prerelease
-        });
+        try {
+            const res = await github.repos.createRelease({
+                owner,
+                repo,
+                tag_name,
+                target_commitish,
+                name,
+                body,
+                draft,
+                prerelease
+            });
+            return res;
+        } catch (e) {
+            Promise.reject(e);
+        }
     },
 
     /**
@@ -259,15 +301,19 @@ module.exports = {
      *
      * @return {Promise}
      */
-    getReleaseByTag(payload, {tag_name}) {
+    async getReleaseByTag(payload, { tag_name }) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
-
-        return github.repos.getReleaseByTag({
-            owner,
-            repo,
-            tag: tag_name
-        });
+        try {
+            const res = await github.repos.getReleaseByTag({
+                owner,
+                repo,
+                tag: tag_name
+            });
+            return res;
+        } catch (e) {
+            Promise.reject(e);
+        }
     },
 
     /**
@@ -279,17 +325,59 @@ module.exports = {
      *
      * @return {Promise}
      */
-    createReviewRequest(payload, {reviewers, team_reviewers}) {
+    async createReviewRequest(payload, { reviewers, team_reviewers }) {
         const owner = payload.repository.owner.login;
         const repo = payload.repository.name;
         const number = payload.pull_request.number;
-
-        return github.pullRequests.createReviewRequest({
-            owner,
-            repo,
-            number,
-            reviewers: toArray(reviewers),
-            team_reviewers: toArray(team_reviewers)
-        });
+        try {
+            const res = await github.pullRequests.createReviewRequest({
+                owner,
+                repo,
+                number,
+                reviewers: toArray(reviewers),
+                team_reviewers: toArray(team_reviewers)
+            });
+            return res;
+        } catch (e) {
+            Promise.reject(e);
+        }
     },
+
+    /**
+     * 获得 repo 所有的tag
+     *
+     * @param {any} payload             data
+     * @returns
+     */
+    async getTags(payload) {
+        const owner = payload.repository.owner.login;
+        const repo = payload.repository.name;
+
+        try {
+            const res = await github.repos.getTags({
+                owner,
+                repo
+            })
+            return res;
+        } catch (e) {
+            Promise.reject(e);
+        }
+    },
+
+    async compareCommits(payload, { base, head }) {
+        const owner = payload.repository.owner.login;
+        const repo = payload.repository.name;
+        try {
+            const res = await github.repos.compareCommits({
+                owner,
+                repo,
+                base,
+                head
+            })
+            return res;
+        } catch (e) {
+            Promise.reject(e);
+        }
+
+    }
 };

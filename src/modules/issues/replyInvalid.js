@@ -20,7 +20,7 @@ const match = str => {
 };
 
 function replyInvalid(on) {
-    on('issues_opened', ({payload}) => {
+    on('issues_opened', ({ payload }) => {
         const issue = payload.issue;
         const opener = issue.user.login;
 
