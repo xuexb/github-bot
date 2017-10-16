@@ -358,7 +358,7 @@ module.exports = {
                 owner,
                 repo
             })
-            return res;
+            return res.data;
         } catch (e) {
             Promise.reject(e);
         }
@@ -374,7 +374,7 @@ module.exports = {
                 base,
                 head
             })
-            return res;
+            return res.data;
         } catch (e) {
             Promise.reject(e);
         }

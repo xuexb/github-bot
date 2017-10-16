@@ -23,9 +23,9 @@ module.exports = on => {
                 url: payload.repository.clone_url,
                 repo
             });
-            const tags = getTags(payload);
-            const head = tags[0];
-            const base = tags.length > 1 ? tags[1] : tags[0];
+            const tags = await getTags(payload);
+            const head = tags[0].name;
+            const base = tags.length > 1 ? tags[1].name : tags[0].name;
 
             const commits = await compareCommits(payload, {
                 base,
