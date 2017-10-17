@@ -65,7 +65,7 @@ module.exports = on => {
                         `- ${v.title}`
                     ]);
 
-                    v.data.forEach(line => body.push('     - ' + line));
+                    v.data.forEach(line => body.push('     ' + line));
                 });
             }
 
