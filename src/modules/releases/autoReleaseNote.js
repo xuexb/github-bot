@@ -4,7 +4,6 @@
  */
 
 const { getTags, compareCommits, getReleaseByTag, createRelease } = require('../../github');
-const { updateRepo } = require('../../utils');
 
 const RELEASE_CHANGE_MAP = {
     document: 'docs',
@@ -19,10 +18,6 @@ module.exports = on => {
             tag_name: payload.ref
         })
         try {
-            const repoDir = await updateRepo({
-                url: payload.repository.clone_url,
-                repo
-            });
             const tags = await getTags(payload);
             const head = tags[0].name;
             const base = tags.length > 1 ? tags[1].name : tags[0].name;
@@ -31,12 +26,19 @@ module.exports = on => {
                 base,
                 head
             });
+
             const commits = commitsLog.commits;
             const changes = Object.keys(RELEASE_CHANGE_MAP).map(title => {
                 let data = []
                 commits.map((commit) => {
-                    if( commit.commit.message.indexOf(`${RELEASE_CHANGE_MAP[title]}:`) === 0 ) {
-                        data.push(` - ${commit.commit.message}, by @${commit.commit.author.name} <<${commit.commit.author.email}>>`);
+                    if ( commit.commit.message.indexOf(`${RELEASE_CHANGE_MAP[title]}:`) === 0 ) {
+                        let message = commit.commit.message;
+                        // 处理 squash merge 的 commit message
+                        // 后期看看有没有更好的解决办法？
+                        if ( message.indexOf('\n') !== -1 ) {
+                            message = message.substr(0, message.indexOf('\n'));
+                        }
+                        data.push(` - ${message}, by @${commit.commit.author.name} <<${commit.commit.author.email}>>`);
                     }
                 });
                 return {
@@ -46,7 +48,12 @@ module.exports = on => {
             }).filter(v => v.data.length);
 
             const hashChanges = commits.map((commit) => {
-                return `- [${commit.sha.substr(0,7)}](${commit.html_url}) - ${commit.commit.message}, by @${commit.commit.author.name} <<${commit.commit.author.email}>>`;
+                let message = commit.commit.message;
+                // 处理 squash merge 的 commit message
+                if ( message.indexOf('\n') !== -1 ) {
+                    message = message.substr(0, message.indexOf('\n'));
+                }
+                return `- [${commit.sha.substr(0,7)}](${commit.html_url}) - ${message}, by @${commit.commit.author.name} <<${commit.commit.author.email}>>`;
             });
 
             let body = [];
