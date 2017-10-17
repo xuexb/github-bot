@@ -27,16 +27,22 @@ module.exports = on => {
             const head = tags[0].name;
             const base = tags.length > 1 ? tags[1].name : tags[0].name;
 
-            const commits = await compareCommits(payload, {
+            const commitsLog = await compareCommits(payload, {
                 base,
                 head
-            }).commits;
-
+            });
+            const commits = commitsLog.commits;
             const changes = Object.keys(RELEASE_CHANGE_MAP).map(title => {
+                let data = []
+                commits.map((commit) => {
+                    if( commit.commit.message.indexOf(`${RELEASE_CHANGE_MAP[title]}:`) === 0 ) {
+                        data.push(` - ${commit.commit.message}, by @${commit.commit.author.name} <<${commit.commit.author.email}>>`);
+                    }
+                });
                 return {
                     title,
-                    data: commits.filter(commit => commit.commit.message.indexOf(`- ${RELEASE_CHANGE_MAP[title]}:`) === 0)
-                }
+                    data
+                };
             }).filter(v => v.data.length);
 
             const hashChanges = commits.map((commit) => {
@@ -52,7 +58,7 @@ module.exports = on => {
                         `- ${v.title}`
                     ]);
 
-                    v.data.forEach(line => body.push('    ' + line));
+                    v.data.forEach(line => body.push('     - ' + line));
                 });
             }
 
