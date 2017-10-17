@@ -38,7 +38,7 @@ module.exports = on => {
                         if ( message.indexOf('\n') !== -1 ) {
                             message = message.substr(0, message.indexOf('\n'));
                         }
-                        data.push(` - ${message}, by @${commit.commit.author.name} <<${commit.commit.author.email}>>`);
+                        data.push(`- ${message}, by @${commit.commit.author.name} <<${commit.commit.author.email}>>`);
                     }
                 });
                 return {
