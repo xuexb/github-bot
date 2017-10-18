@@ -225,7 +225,7 @@ module.exports = {
     const number = payload.pull_request.number
 
     try {
-      const res = await Fgithub.issues.removeLabel({
+      const res = await github.issues.removeLabel({
         owner,
         repo,
         number,
