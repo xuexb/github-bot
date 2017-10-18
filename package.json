@@ -4,7 +4,8 @@
   "version": "0.0.1",
   "main": "src/app.js",
   "scripts": {
-    "start": "NODE_ENV=development node src/app"
+    "start": "NODE_ENV=development node src/app",
+    "lint": "eslint src/**/* --quiet"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,13 @@
     "cryptiles": "3.1.2",
     "crypto": "^1.0.1",
     "dotenv": "^4.0.0",
+    "eslint": "^4.9.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-friendly-formatter": "^3.0.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.2.0",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
     "github": "^11.0.0",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
@@ -53,7 +61,10 @@
       }
     }
   },
-  "os": ["darwin", "linux"],
+  "os": [
+    "darwin",
+    "linux"
+  ],
   "devDependencies": {
     "ghooks": "^2.0.0",
     "git-pull-or-clone": "xuexb/git-pull-or-clone",

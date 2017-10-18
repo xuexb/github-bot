@@ -3,21 +3,21 @@
  * @author xuexb <fe.xiaowu@gmail.com>
  */
 
-const { getPkgConfig } = require('../../utils');
-const { addAssigneesToIssue } = require('../../github');
+const { getPkgConfig } = require('../../utils')
+const { addAssigneesToIssue } = require('../../github')
 
-const config = getPkgConfig();
-const assignMap = config.labelToAuthor || {};
+const config = getPkgConfig()
+const assignMap = config.labelToAuthor || {}
 
-function autoAssign(on) {
-    on('issues_labeled', ({ payload, repo }) => {
-        if (assignMap[payload.label.name]) {
-            addAssigneesToIssue(
-                payload,
-                assignMap[payload.label.name]
-            );
-        }
-    });
+function autoAssign (on) {
+  on('issues_labeled', ({ payload, repo }) => {
+    if (assignMap[payload.label.name]) {
+      addAssigneesToIssue(
+        payload,
+        assignMap[payload.label.name]
+      )
+    }
+  })
 }
 
-module.exports = autoAssign;
+module.exports = autoAssign
