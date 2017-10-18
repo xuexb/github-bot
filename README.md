@@ -2,6 +2,8 @@
 
 Github robot
 
+[![Build Status](https://travis-ci.org/xuexb/github-bot.svg?branch=master)](https://travis-ci.org/xuexb/github-bot)
+
 ## 功能 - Feature
 
 ### Issue
