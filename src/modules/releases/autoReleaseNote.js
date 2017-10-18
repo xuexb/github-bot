@@ -3,79 +3,92 @@
  * @author xuexb <fe.xiaowu@gmail.com>
  */
 
-const {getReleaseByTag, createRelease} = require('../../github');
-const {updateRepo, getTags, getFirstCommitHash, getCommitLog} = require('../../utils');
+const { getTags, compareCommits, getReleaseByTag, createRelease } = require('../../github')
 
 const RELEASE_CHANGE_MAP = {
-    document: 'docs',
-    feature: 'feat',
-    bugfix: 'fix',
-    close: 'close'
-};
+  document: 'docs',
+  feature: 'feat',
+  bugfix: 'fix',
+  close: 'close'
+}
 
 module.exports = on => {
-    on('create_tag', ({payload, repo}) => {
-        getReleaseByTag(payload, {
-            tag_name: payload.ref
-        }).then(() => {}, () => {
-            updateRepo({
-                url: payload.repository.clone_url,
-                repo
-            }).then(repoDir => {
-                const tags = getTags({
-                    dir: repoDir
-                });
-                const after = tags[0];
-                const before = tags.length > 1 ? tags[1] : getFirstCommitHash({
-                    dir: repoDir
-                });
-                const log = getCommitLog({
-                    dir: repoDir,
-                    before,
-                    after
-                });
+  on('create_tag', async ({ payload, repo }) => {
+    const tag = await getReleaseByTag(payload, {
+      tag_name: payload.ref
+    })
+    // 如果该 tag 存在则直接返回
+    if (tag !== false) {
+      return
+    }
 
-                const hash = getCommitLog({
-                    dir: repoDir,
-                    before,
-                    after,
-                    html_url: payload.repository.html_url,
-                    hash: true
-                });
+    // 创建 release note
+    try {
+      const tags = await getTags(payload)
+      const head = tags[0].name
+      const base = tags.length > 1 ? tags[1].name : tags[0].name
 
-                const changes = Object.keys(RELEASE_CHANGE_MAP).map(title => {
-                    return {
-                        title,
-                        data: log.filter(log => log.indexOf(`- ${RELEASE_CHANGE_MAP[title]}:`) === 0)
-                    }
-                }).filter(v => v.data.length);
+      const commitsLog = await compareCommits(payload, {
+        base,
+        head
+      })
 
-                let body = [];
+      const commits = commitsLog.commits
+      const changes = Object.keys(RELEASE_CHANGE_MAP).map(title => {
+        let data = []
+        commits.map((commit) => {
+          if (commit.commit.message.indexOf(`${RELEASE_CHANGE_MAP[title]}:`) === 0) {
+            let message = commit.commit.message
+            // 处理 squash merge 的 commit message
+            // 后期看看有没有更好的解决办法？
+            if (message.indexOf('\n') !== -1) {
+              message = message.substr(0, message.indexOf('\n'))
+            }
+            data.push(`- ${message}, by @${commit.commit.author.name} <<${commit.commit.author.email}>>`)
+          }
+        })
+        return {
+          title,
+          data
+        }
+      }).filter(v => v.data.length)
 
-                if (changes.length) {
-                    body.push('## Notable changes\n');
-                    changes.forEach(v => {
-                        body.push([
-                            `- ${v.title}`
-                        ]);
+      const hashChanges = commits.map((commit) => {
+        let message = commit.commit.message
+        // 处理 squash merge 的 commit message
+        if (message.indexOf('\n') !== -1) {
+          message = message.substr(0, message.indexOf('\n'))
+        }
+        return `- [${commit.sha.substr(0, 7)}](${commit.html_url}) - ${message}, by @${commit.commit.author.name} <<${commit.commit.author.email}>>`
+      })
 
-                        v.data.forEach(line => body.push('    ' + line));
-                    });
-                }
+      let body = []
 
-                if (hash.length) {
-                    body.push('\n## Commits\n');
-                    body = body.concat(hash);
-                }
+      if (changes.length) {
+        body.push('## Notable changes\n')
+        changes.forEach(v => {
+          body.push([
+            `- ${v.title}`
+          ])
 
-                if (body.length) {
-                    createRelease(payload, {
-                        tag_name: payload.ref,
-                        name: `${payload.ref} @${payload.repository.owner.login}`,
-                        body: body.join('\n')
-                    });
-                }
-            }).catch(err => console.error(err));
-        });
-    });
+          v.data.forEach(line => body.push('     ' + line))
+        })
+      }
+
+      if (hashChanges.length) {
+        body.push('\n## Commits\n')
+        body = body.concat(hashChanges)
+      }
+
+      if (body.length) {
+        createRelease(payload, {
+          tag_name: payload.ref,
+          name: `${payload.ref} @${payload.repository.owner.login}`,
+          body: body.join('\n')
+        })
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  })
 }

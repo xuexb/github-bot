@@ -4,31 +4,31 @@
  */
 
 const {
-    addLabelsToPullRequest,
-    pullRequestHasLabel
-} = require('../../github');
+  addLabelsToPullRequest,
+  pullRequestHasLabel
+} = require('../../github')
 
 const getAction = title => {
-    return (title.match(/^(\w+?):/) || [])[1];
-};
+  return (title.match(/^(\w+?):/) || [])[1]
+}
 
 const ACTION_TO_LABEL_MAP = {
-    feat: 'enhancement',
-    fix: 'bug',
-    docs: 'document'
-};
+  feat: 'enhancement',
+  fix: 'bug',
+  docs: 'document'
+}
 
-const handle = ({payload, repo}) => {
-    const action = getAction(payload.pull_request.title);
+const handle = ({ payload, repo }) => {
+  const action = getAction(payload.pull_request.title)
 
-    if (action && ACTION_TO_LABEL_MAP[action]) {
-        pullRequestHasLabel(payload, ACTION_TO_LABEL_MAP[action]).catch(() => {
-            addLabelsToPullRequest(payload, ACTION_TO_LABEL_MAP[action]);
-        });
-    }
-};
+  if (action && ACTION_TO_LABEL_MAP[action]) {
+    pullRequestHasLabel(payload, ACTION_TO_LABEL_MAP[action]).catch(() => {
+      addLabelsToPullRequest(payload, ACTION_TO_LABEL_MAP[action])
+    })
+  }
+}
 
 module.exports = on => {
-    on('pull_request_edited', handle);
-    on('pull_request_opened', handle);
-};
+  on('pull_request_edited', handle)
+  on('pull_request_opened', handle)
+}
