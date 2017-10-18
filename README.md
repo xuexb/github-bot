@@ -2,7 +2,7 @@
 
 Github robot
 
-[![Build Status](https://travis-ci.org/xuexb/github-bot.svg?branch=master)](https://travis-ci.org/xuexb/github-bot)
+[![Build Status](https://travis-ci.org/xuexb/github-bot.svg?branch=master)](https://travis-ci.org/xuexb/github-bot) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/71f91395952642669682846799d444c5)](https://www.codacy.com/app/xuexb/github-bot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=xuexb/github-bot&amp;utm_campaign=Badge_Grade)
 
 ## 功能 - Feature
 
