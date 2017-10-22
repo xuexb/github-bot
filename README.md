@@ -20,7 +20,7 @@ Github robot
 
 ### Release
 
-- [x] 当往远程第一次推送新版本号时，自动列出最新版本距离上一版本的 commit log 并发布 release notes ，会把项目 clone 到 `./github/{项目名}/` 去分析 commit log
+- [x] 当往远程第一次推送新版本号时，自动列出最新版本距离上一版本的 commit log 并发布 release notes ，由于需要使用两个 tag 去对比，所以项目的第一个 tag 就不处理
 
 ## 规则 - Rules
 
