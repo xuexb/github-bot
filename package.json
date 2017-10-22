@@ -67,7 +67,6 @@
     "eslint-plugin-node": "^5.2.0",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
-    "git-pull-or-clone": "xuexb/git-pull-or-clone",
     "husky": "^0.14.3",
     "validate-commit-msg": "^2.14.0"
   }
