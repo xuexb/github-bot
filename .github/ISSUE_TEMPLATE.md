@@ -4,6 +4,6 @@
 
 -->
 
-node version: 版本号
+node version: 版本号 (数字)
 
 ---
