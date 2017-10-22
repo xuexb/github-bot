@@ -16,14 +16,12 @@ github.authenticate({
 })
 
 module.exports = {
-
-  github,
-
   /**
    * issue 是否包含某 label
    *
    * @param {Object} payload data
    * @param {string} body 评论内容
+   * @return {boolean}
    */
   async issueHasLabel (payload, label) {
     const owner = payload.repository.owner.login
@@ -31,17 +29,14 @@ module.exports = {
     const number = payload.issue.number
 
     try {
-      const res = github.issues.getIssueLabels({
+      const res = await github.issues.getIssueLabels({
         owner,
         repo,
         number
       })
-
-      if (res.data.map(v => v.name).indexOf(label) === -1) {
-        Promise.reject(new Error('issue no label'))
-      }
+      return res.data.map(v => v.name).indexOf(label) > -1
     } catch (e) {
-      Promise.reject(e)
+      return false
     }
   },
 
@@ -50,6 +45,7 @@ module.exports = {
    *
    * @param {Object} payload data
    * @param {string} body 评论内容
+   * @return {boolean}
    */
   async pullRequestHasLabel (payload, label) {
     const owner = payload.repository.owner.login
@@ -62,11 +58,9 @@ module.exports = {
         repo,
         number
       })
-      if (res.data.map(v => v.name).indexOf(label) === -1) {
-        Promise.reject(new Error('pull request no label'))
-      }
+      return res.data.map(v => v.name).indexOf(label) > -1
     } catch (e) {
-      Promise.reject(e)
+      return false
     }
   },
 
@@ -75,6 +69,7 @@ module.exports = {
    *
    * @param {Object} payload data
    * @param {string} body 评论内容
+   * @return {boolean} 是否成功
    */
   async commentIssue (payload, body) {
     const owner = payload.repository.owner.login
@@ -82,15 +77,15 @@ module.exports = {
     const number = payload.issue.number
 
     try {
-      const res = await github.issues.createComment({
+      await github.issues.createComment({
         owner,
         repo,
         number,
         body
       })
-      return res
+      return true
     } catch (e) {
-      Promise.reject(e)
+      return false
     }
   },
 
@@ -99,6 +94,7 @@ module.exports = {
    *
    * @param {Object} payload data
    * @param {string} body 评论内容
+   * @return {boolean} 是否成功
    */
   async commentPullRequest (payload, body) {
     const owner = payload.repository.owner.login
@@ -106,15 +102,15 @@ module.exports = {
     const number = payload.pull_request.number
 
     try {
-      const res = await github.issues.createComment({
+      await github.issues.createComment({
         owner,
         repo,
         number,
         body
       })
-      return res
+      return true
     } catch (e) {
-      Promise.reject(e)
+      return false
     }
   },
 
@@ -122,6 +118,7 @@ module.exports = {
    * 关闭 issue
    *
    * @param {Object} payload data
+   * @return {boolean} 是否成功
    */
   async closeIssue (payload) {
     const owner = payload.repository.owner.login
@@ -129,15 +126,15 @@ module.exports = {
     const number = payload.issue.number
 
     try {
-      const res = await github.issues.edit({
+      await github.issues.edit({
         owner,
         repo,
         number,
         state: 'closed'
       })
-      return res
+      return true
     } catch (e) {
-      Promise.reject(e)
+      return false
     }
   },
 
@@ -146,6 +143,7 @@ module.exports = {
    *
    * @param {Object} payload data
    * @param {string | Array} assign  用户id
+   * @return {boolean} 是否成功
    */
   async addAssigneesToIssue (payload, assign) {
     const owner = payload.repository.owner.login
@@ -153,15 +151,15 @@ module.exports = {
     const number = payload.issue.number
 
     try {
-      const res = await github.issues.edit({
+      await github.issues.edit({
         owner,
         repo,
         number,
-        assignees: Array.isArray(assign) ? assign : [assign]
+        assignees: toArray(assign)
       })
-      return res
+      return true
     } catch (e) {
-      Promise.reject(e)
+      return false
     }
   },
 
@@ -170,6 +168,7 @@ module.exports = {
    *
    * @param {Object} payload data
    * @param {string | Array} labels  标签
+   * @return {boolean} 是否成功
    */
   async addLabelsToIssue (payload, labels) {
     const owner = payload.repository.owner.login
@@ -177,15 +176,15 @@ module.exports = {
     const number = payload.issue.number
 
     try {
-      const res = await github.issues.addLabels({
+      await github.issues.addLabels({
         owner,
         repo,
         number,
-        labels: Array.isArray(labels) ? labels : [labels]
+        labels: toArray(labels)
       })
-      return res
+      return true
     } catch (e) {
-      Promise.reject(e)
+      return false
     }
   },
 
@@ -194,6 +193,7 @@ module.exports = {
    *
    * @param {Object} payload data
    * @param {string | Array} labels  标签
+   * @return {boolean} 是否成功
    */
   async addLabelsToPullRequest (payload, labels) {
     const owner = payload.repository.owner.login
@@ -201,15 +201,15 @@ module.exports = {
     const number = payload.pull_request.number
 
     try {
-      const res = await github.issues.addLabels({
+      await github.issues.addLabels({
         owner,
         repo,
         number,
-        labels: Array.isArray(labels) ? labels : [labels]
+        labels: toArray(labels)
       })
-      return res
+      return true
     } catch (e) {
-      Promise.reject(e)
+      return false
     }
   },
 
@@ -218,6 +218,7 @@ module.exports = {
    *
    * @param {Object} payload data
    * @param {string} name  标签名
+   * @return {boolean} 是否成功
    */
   async removeLabelsToPullRequest (payload, name) {
     const owner = payload.repository.owner.login
@@ -225,15 +226,15 @@ module.exports = {
     const number = payload.pull_request.number
 
     try {
-      const res = await github.issues.removeLabel({
+      await github.issues.removeLabel({
         owner,
         repo,
         number,
         name
       })
-      return res
+      return true
     } catch (e) {
-      Promise.reject(e)
+      return false
     }
   },
 
@@ -242,21 +243,22 @@ module.exports = {
    *
    * @param {Object} payload data
    * @param {string} name  标签名
+   * @return {boolean} 是否成功
    */
   async removeLabelsToIssue (payload, name) {
     const owner = payload.repository.owner.login
     const repo = payload.repository.name
     const number = payload.issues.number
     try {
-      const res = await github.issues.removeLabel({
+      await github.issues.removeLabel({
         owner,
         repo,
         number,
         name
       })
-      return res
+      return true
     } catch (e) {
-      Promise.reject(e)
+      return false
     }
   },
 
@@ -270,12 +272,13 @@ module.exports = {
    * @param  {string} options.body             内容
    * @param  {boolean} options.draft            是否为草稿
    * @param  {boolean} options.prerelease       是否预发布
+   * @return {boolean} 是否成功
    */
   async createRelease (payload, { tag_name, target_commitish, name, body, draft, prerelease }) {
     const owner = payload.repository.owner.login
     const repo = payload.repository.name
     try {
-      const res = await github.repos.createRelease({
+      await github.repos.createRelease({
         owner,
         repo,
         tag_name,
@@ -285,9 +288,9 @@ module.exports = {
         draft,
         prerelease
       })
-      return res
+      return true
     } catch (e) {
-      Promise.reject(e)
+      return false
     }
   },
 
@@ -297,7 +300,7 @@ module.exports = {
    * @param  {Object} payload          data
    * @param  {string} options.tag_name tag名
    *
-   * @return {Promise}
+   * @return {Object | null}
    */
   async getReleaseByTag (payload, { tag_name }) {
     const owner = payload.repository.owner.login
@@ -308,9 +311,9 @@ module.exports = {
         repo,
         tag: tag_name
       })
-      return res
+      return res.data
     } catch (e) {
-      return false
+      return null
     }
   },
 
@@ -321,23 +324,23 @@ module.exports = {
    * @param  {Array | string} options.reviewers           reviewer
    * @param  {Array | string} options.team_reviewers      team_reviewers
    *
-   * @return {Promise}
+   * @return {boolean} 是否成功
    */
   async createReviewRequest (payload, { reviewers, team_reviewers }) {
     const owner = payload.repository.owner.login
     const repo = payload.repository.name
     const number = payload.pull_request.number
     try {
-      const res = await github.pullRequests.createReviewRequest({
+      await github.pullRequests.createReviewRequest({
         owner,
         repo,
         number,
         reviewers: toArray(reviewers),
         team_reviewers: toArray(team_reviewers)
       })
-      return res
+      return true
     } catch (e) {
-      Promise.reject(e)
+      return false
     }
   },
 
@@ -345,12 +348,11 @@ module.exports = {
    * 获得 repo 所有的tag
    *
    * @param {any} payload             data
-   * @returns
+   * @return {Array}
    */
   async getTags (payload) {
     const owner = payload.repository.owner.login
     const repo = payload.repository.name
-
     try {
       const res = await github.repos.getTags({
         owner,
@@ -358,10 +360,18 @@ module.exports = {
       })
       return res.data
     } catch (e) {
-      Promise.reject(e)
+      return []
     }
   },
 
+  /**
+   * 对比2个提交
+   *
+   * @param  {Object} payload      data
+   * @param  {string} options.base 基点
+   * @param  {string} options.head diff
+   * @return {Array | null}
+   */
   async compareCommits (payload, { base, head }) {
     const owner = payload.repository.owner.login
     const repo = payload.repository.name
@@ -374,7 +384,7 @@ module.exports = {
       })
       return res.data
     } catch (e) {
-      Promise.reject(e)
+      return null
     }
   }
 }
