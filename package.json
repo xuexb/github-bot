@@ -39,9 +39,11 @@
         "fix",
         "docs",
         "style",
+        "refactor",
         "test",
         "chore",
         "revert",
+        "release",
         "close"
       ]
     },
