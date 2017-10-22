@@ -43,8 +43,7 @@ module.exports = on => {
     })
 
     on('pull_request_edited', async ({ payload, repo }) => {
-      if (match(payload.pull_request.title)) {
-        await pullRequestHasLabel(payload, 'invalid')
+      if (match(payload.pull_request.title) && await pullRequestHasLabel(payload, 'invalid')) {
         commentPullRequest(
           payload,
           format(commentSuccess, {

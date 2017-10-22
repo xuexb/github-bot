@@ -18,13 +18,13 @@ const ACTION_TO_LABEL_MAP = {
   docs: 'document'
 }
 
-const handle = ({ payload, repo }) => {
+const handle = async ({ payload, repo }) => {
   const action = getAction(payload.pull_request.title)
-
   if (action && ACTION_TO_LABEL_MAP[action]) {
-    pullRequestHasLabel(payload, ACTION_TO_LABEL_MAP[action]).catch(() => {
+    const exist = await pullRequestHasLabel(payload, ACTION_TO_LABEL_MAP[action])
+    if (!exist) {
       addLabelsToPullRequest(payload, ACTION_TO_LABEL_MAP[action])
-    })
+    }
   }
 }
 
