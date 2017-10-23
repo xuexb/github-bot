@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>创建 issue - github-bot</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0">
+  <style type="text/css">
+    * {
+      box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+    }
+    body,
+    textarea,
+    input {
+      font-size: 14px;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 600px;
+      padding: 10px;
+    }
+    h1 {
+      font-size: 30px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    p {
+      color: #999;
+    }
+    li {
+      padding-bottom: 30px;
+      position: relative;
+      padding-left: 100px;
+    }
+    sub {
+      color: #999;
+      padding-left: 5px;
+      vertical-align: middle;
+    }
+    input[type=text],
+    textarea {
+      border: 1px solid  #ccc;
+      outline: none;
+      width: 400px;
+      line-height: 32px;
+      padding: 0 5px;
+    }
+    label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100px;
+      line-height: 32px;
+      text-align: right;
+    }
+    select {
+      height: 32px;
+      border: 1px solid  #ccc;
+    }
+    button[type=submit] {
+      border: none;
+      background-color: #009688;
+      height: 30px;
+      padding: 0 20px;
+      border-radius: 0;
+      color: #fff;
+      cursor: pointer;
+    }
+    code {
+      background-color: rgba(27,31,35,0.05);
+      border-radius: 3px;
+      padding: 4px;
+    }
+    footer {
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @media screen and (max-width: 600px) {
+      h1 {
+        font-size: 20px;
+      }
+      li {
+        padding-left: 0;
+      }
+      label {
+        position: static;
+        display: block;
+        text-align: left;
+        width: auto;
+      }
+      input[type=text],
+      textarea,
+      select,
+      button[type=submit] {
+        display: block;
+        width: 100% !important;
+      }
+      sub {
+        display: block;
+        padding-left: 0;
+        padding-top: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>创建 issue - <a href="https://github.com/xuexb/github-bot" target="_blank">github-bot</a></h1>
+  <p>
+    接受任何建议和意见，请认真填写下面表单，感谢您的反馈！
+  </p>
+  <form action="">
+    <ul>
+      <li>
+        <label for="type">这是一个：</label>
+        <select required id="type">
+          <option value="bug">错误反馈</option>
+          <option value="enhancement">新的功能</option>
+          <option value="question">咨询</option>
+          <option value="suggestion">建议</option>
+        </select>
+      </li>
+      <li>
+        <label for="title">issue 标题：</label>
+        <input type="text" id="title" required>
+      </li>
+      <li id="node-version-wrap">
+        <label for="node">nodejs 版本：</label>
+        <input style="width: 100px" type="text" id="node" pattern="^[vV]?(\d\.?)+$" required>
+        <sub>使用 <code>node -v</code> 可查看版本号。</sub>
+      </li>
+      <li>
+        <label for="content">内容：</label>
+        <textarea style="height: 160px; line-height: 25px;" id="content" required></textarea>
+      </li>
+      <li>
+        <button type="submit">发布</button><sub>发布是指生成指定内容到 Github 的 <a href="https://github.com/xuexb/github-bot/issues/new" target="_blank">issue</a> 页面，然后手动提交。</sub>
+      </li>
+    </ul>
+  </form>
+
+  <footer>&copy; <a href="https://xuexb.com?create-issue">前端小武</a></footer>
+
+  <script>
+    var $ = function (selector) {
+      return document.querySelector(selector);
+    }
+    $('#type').addEventListener('change', function () {
+      if (this.value === 'bug') {
+        $('#node').setAttribute('required', true);
+        $('#node-version-wrap').style.display = 'block';
+      }
+      else {
+        $('#node').removeAttribute('required');
+        $('#node-version-wrap').style.display = 'none';
+      }
+    });
+    $('form').addEventListener('submit', function (event) {
+      var type = $('#type').value;
+      var title = $('#title').value;
+      var node = type === 'bug' ? $('#node').value : '';
+      var content = $('#content').value;
+
+      event.preventDefault();
+
+      if (!title) {
+        return alert('请填写 "issue 标题"');
+      }
+      else if (type === 'bug' && !node) {
+        return alert('请填写 "nodejs 版本"');
+      }
+      else if (!content) {
+        return alert('请填写 "内容"');
+      }
+
+      var body = [];
+
+      if (node) {
+        body.push('nodejs 版本号：' + node);
+        body.push('');
+        body.push('---');
+        body.push('');
+      }
+
+      body.push(content);
+
+      body.push('');
+      body.push('<!-- label: ' + type + ' -->');
+      body.push('<!-- by create-issue -->');
+      body.push('<!-- 上面2个注释请不要删除，登录您的帐号提交 issue 即可 -->');
+
+      window.open('https://github.com/xuexb/github-bot/issues/new?title=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(body.join('\n')));
+    });
+  </script>
+</body>
+</html>
