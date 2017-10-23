@@ -12,19 +12,15 @@ const {
 
 const comment = [
   'hi @{user}，非常感谢您的反馈，',
-  '但是由于您没有使用 [规范的issue](https://github.com/xuexb/github-bot#issue-规则) 格式， 将直接被关闭， 谢谢！'
+  '但是由于您没有使用 [创建 issue](https://xuexb.github.io/github-bot/create-issue.html) 页面提交， 将直接被关闭， 谢谢！'
 ].join('')
-
-const match = str => {
-  return /node version:\s*[vV]?(\d\.?)+/.test(str)
-}
 
 function replyInvalid (on) {
   on('issues_opened', ({ payload }) => {
     const issue = payload.issue
     const opener = issue.user.login
 
-    if (!match(issue.body)) {
+    if (issue.body.indexOf('<!-- by create-issue -->') === -1) {
       commentIssue(
         payload,
         format(comment, {
