@@ -27,9 +27,7 @@ Github robot
 
 ### issue 规则
 
-```
-node version: 版本号
-```
+必须使用 [创建 issue](https://xuexb.github.io/github-bot/create-issue.html) 页面来提交 issue ，否则将直接被关闭
 
 ### labels 规则
 
