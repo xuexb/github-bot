@@ -1,5 +1,5 @@
 /**
- * @file 不规范issue则自动关闭
+ * @file 当有 need demo 标签时自动回复需要相关预览链接
  * @author xuexb <fe.xiaowu@gmail.com>
  */
 
