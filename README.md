@@ -8,7 +8,8 @@ Github robot
 
 ### Issue
 
-- [x] 不规范 issue 自动关闭
+- [x] 没有使用 [创建 issue](https://xuexb.github.io/github-bot/create-issue.html) 页面提交的 issue 将直接被关闭
+- [x] 根据 [创建 issue](https://xuexb.github.io/github-bot/create-issue.html) 页面提交的 issue 类型自动打上对应 label
 - [x] 当 issue 标记 label 为 `need demo` 时，自动回复，需要相关demo
 - [x] issue 自动 assign 给指定人员，需要配置 `package.json` 中 `config.github-bot.labelToAuthor` 映射
 
