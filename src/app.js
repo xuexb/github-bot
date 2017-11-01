@@ -32,7 +32,6 @@ app.use(ctx => {
     }
 
     accessLog.info(`receive event: ${eventName}`)
-    console.log(`receive event: ${eventName}`)
 
     githubEvent.emit(eventName, {
       repo: payload.repository.name,
@@ -56,4 +55,3 @@ const port = 8000
 app.listen(port)
 appLog.info('Listening on http://0.0.0.0:', port)
 console.log(`Listening on http://0.0.0.0:${port}`)
-appLog.error('this is a error')
