@@ -72,7 +72,7 @@ $ npm run lint
 <a id="pull-request"></a>
 ### 提交请求（pull request）
 
-1. fork mipengine/www.mipengine.org
+1. fork [@xuexb/github-bot](https://github.com/xuexb/github-bot)
 1. 把个人仓库（repository）克隆到电脑上，并安装所依赖的插件。
 1. 开始编辑，并自测通过（后续Todo: 添加测试用例）后提前代码。
 1. 推送（push）分支。
