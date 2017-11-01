@@ -27,7 +27,7 @@
     "github": "^11.0.0",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
-    "koa-logger": "^3.1.0",
+    "log4js": "^2.3.10",
     "require-dir": "^0.3.2",
     "string-template": "^1.0.0"
   },
