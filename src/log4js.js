@@ -14,31 +14,28 @@ const log4js = require('log4js')
 log4js.configure(
   {
     'appenders': {
-      file: {
+      app: {
         'type': 'file',
         'filename': 'log/app.log',
         'maxLogSize': 10485760,
         'numBackups': 3
       },
-      dateFile: {
+      access: {
         'type': 'dateFile',
         'filename': 'log/access.log',
         'pattern': '-yyyy-MM-dd',
         'category': 'http'
       },
-      logLevelFilter: {
+      errorFile: { type: 'file', filename: 'log/errors.log' },
+      errors: {
         'type': 'logLevelFilter',
-        'level': 'ERROR',
-        'appender': {
-          'type': 'file',
-          'filename': 'log/errors.log'
-        }
+        'level': 'error',
+        'appender': 'errorFile'
       }
     },
     categories: {
-      app: { appenders: ['file'], level: 'trace' },
-      error: { appenders: ['logLevelFilter'], level: 'error' },
-      default: { appenders: ['dateFile'], level: 'trace' }
+      default: { appenders: ['app', 'errors'], level: 'trace' },
+      http: { appenders: ['access'], level: 'info' }
     }
   }
 )
