@@ -4,6 +4,10 @@ Github robot
 
 [![Build Status](https://travis-ci.org/xuexb/github-bot.svg?branch=master)](https://travis-ci.org/xuexb/github-bot)
 
+## 声明
+
+该 [仓库@xuexb/github-bot](https://github.com/xuexb/github-bot/) 是用来演示 github-bot 的基本功能，因为具体需要实现的功能，可能因项目而不同，如果你需要她，你可以 fork 并相应的添加、删除功能。以下功能是一些常用的 show case 。
+
 ## 功能 - Feature
 
 ### Issue
@@ -89,9 +93,9 @@ vim .env
 npm start
 ```
 
-###
-
 ## contributors
+
+> [用户贡献指南](.github/CONTRIBUTING.md)
 
 - [@yugasun](https://github.com/yugasun/)
 - [@xuexb](https://github.com/xuexb/)
