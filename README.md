@@ -1,6 +1,6 @@
 # github-bot
 
-Github robot
+github 机器人：在服务端上启动一个基于 [koajs](http://koajs.com/) 的 http server ，建立一些项目的规范（如 issue 格式、 pull request 格式、配置一些指定 label 根据的 owner 、统一 git commit log 格式等），基于 [github webhooks](https://developer.github.com/webhooks/) 和 [github api](https://developer.github.com/v3/) 让机器人（通常是一个单独的帐号，如 [@jiandansousuo-bot](https://github.com/jiandansousuo-bot) ）自动处理一些事情，从而达到快速响应、自动化、解放人力的效果。
 
 [![Build Status](https://travis-ci.org/xuexb/github-bot.svg?branch=master)](https://travis-ci.org/xuexb/github-bot)
 
@@ -12,20 +12,20 @@ Github robot
 
 ### Issue
 
-- [x] 没有使用 [创建 issue](https://xuexb.github.io/github-bot/create-issue.html) 页面提交的 issue 将直接被关闭
-- [x] 根据 [创建 issue](https://xuexb.github.io/github-bot/create-issue.html) 页面提交的 issue 类型自动打上对应 label
-- [x] 当 issue 标记 label 为 `need demo` 时，自动回复，需要相关demo
-- [x] issue 自动 assign 给指定人员，需要配置 `package.json` 中 `config.github-bot.labelToAuthor` 映射
+- [x] 没有使用 [创建 issue](https://xuexb.github.io/github-bot/create-issue.html) 页面提交的 issue 将直接被关闭 - [示例](https://github.com/xuexb/github-bot/issues/38#issuecomment-341050970)
+- [x] 根据 [创建 issue](https://xuexb.github.io/github-bot/create-issue.html) 页面提交的 issue 类型自动打上对应 label - [示例](https://github.com/xuexb/github-bot/issues/32#event-1317962655)
+- [x] 当 issue 标记 label 为 `need demo` 时，自动回复，需要相关demo - [示例](https://github.com/xuexb/github-bot/issues/14#issuecomment-336701988)
+- [x] issue 自动 assign 给指定人员，需要配置 `package.json` 中 `config.github-bot.labelToAuthor` 映射 - [示例](https://github.com/xuexb/github-bot/issues/32#event-1317962669)
 
 ### Pull Request
 
-- [x] 发 PR 时根据打的 label 自动添加指定的 reviewer ，需要配置 `package.json` 中 `config.github-bot.labelToAuthor` 映射
-- [x] 发 PR 时标题不规范时提醒修改，需要配置 `package.json` 中 `config.validate-commit-msg.type` 功能关键字，标题必须以 `功能关键字:` 开头
-- [x] 发 PR 时自动根据标题的 [PR 标题规则](https://github.com/xuexb/github-bot#commit-log-和-pr-标题规则) 前缀生成对应的 label ， `feat->enhancement, fix->bug`
+- [x] 发 PR 时根据打的 label 自动添加指定的 reviewer ，需要配置 `package.json` 中 `config.github-bot.labelToAuthor` 映射 - [示例](https://github.com/xuexb/github-bot/pull/33#event-1320253347)
+- [x] 发 PR 时标题不规范时提醒修改，需要配置 `package.json` 中 `config.validate-commit-msg.type` 功能关键字，标题必须以 `功能关键字:` 开头 - [示例](https://github.com/xuexb/github-bot/pull/33#issuecomment-340650462)
+- [x] 发 PR 时自动根据标题的 [PR 标题规则](https://github.com/xuexb/github-bot#commit-log-和-pr-标题规则) 前缀生成对应的 label ， `feat->enhancement, fix->bug` - [示例](https://github.com/xuexb/github-bot/pull/33#event-1320253315)
 
 ### Release
 
-- [x] 当往远程第一次推送新版本号时，自动列出最新版本距离上一版本的 commit log 并发布 release notes ，由于需要使用两个 tag 去对比，所以项目的第一个 tag 就不处理
+- [x] 当往远程第一次推送新版本号时，自动列出最新版本距离上一版本的 commit log 并发布 release notes ，由于需要使用两个 tag 去对比，所以项目的第一个 tag 就不处理 - [示例](https://github.com/xuexb/github-bot/releases)
 
 ## 规则 - Rules
 
@@ -60,6 +60,7 @@ Github robot
 - chore - 构建过程或辅助工具的变动
 - revert - 撤销
 - close - 关闭 issue
+- release - 发布版本
 
 示例：
 
