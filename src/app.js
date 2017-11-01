@@ -7,6 +7,7 @@ require('dotenv').config()
 
 const EventEmitter = require('events')
 const Koa = require('koa')
+const logger = require('koa-logger')
 const bodyParser = require('koa-bodyparser')
 const requireDir = require('require-dir')
 const { verifySignature } = require('./utils')
@@ -16,6 +17,7 @@ const releasesActions = requireDir('./modules/releases')
 const app = new Koa()
 const githubEvent = new EventEmitter()
 
+app.use(logger())
 app.use(bodyParser())
 
 app.use(ctx => {

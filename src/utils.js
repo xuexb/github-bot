@@ -2,14 +2,8 @@
  * @file 工具集
  * @author xuexb <fe.xiaowu@gmail.com>
  */
-
-const format = require('string-template')
-const path = require('path')
-const fs = require('fs')
 const crypto = require('crypto')
 const { fixedTimeComparison } = require('cryptiles')
-const { execSync } = require('child_process')
-// const gitPullOrClone = require('git-pull-or-clone')
 
 const utils = {
 

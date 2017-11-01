@@ -85,14 +85,25 @@ https://github.com/用户名/项目名/settings/hooks/new
 - trigger: Send me everything.
 - Secret: xxx （_需要在 .env 里配置_）
 
-### 3. run server
+### 3. 开发运行
 
-```
+```bash
 npm install
 cp env .env
 vim .env
 npm start
 ```
+
+### 4. 部署
+
+本项目使用 [pm2](https://github.com/Unitech/pm2) 进行服务管理，发布前请先全局安装 [pm2](https://github.com/Unitech/pm2)
+
+```bash
+npm install pm2 -g
+npm run deploy
+```
+
+后台启动该服务后，可以通过 `pm2 ls` 来查看服务名称为 `github-bot` 的运行状态。具体 [pm2](https://github.com/Unitech/pm2) 使用，请访问：https://github.com/Unitech/pm2
 
 ## contributors
 

@@ -3,7 +3,12 @@
  * @author xuexb <fe.xiaowu@gmail.com>
  */
 
-const { getTags, compareCommits, getReleaseByTag, createRelease } = require('../../github')
+const {
+  getTags,
+  compareCommits,
+  getReleaseByTag,
+  createRelease
+} = require('../../github')
 
 const RELEASE_CHANGE_MAP = {
   document: 'docs',
