@@ -55,10 +55,6 @@
       }
     }
   },
-  "os": [
-    "darwin",
-    "linux"
-  ],
   "devDependencies": {
     "eslint": "^4.9.0",
     "eslint-config-standard": "^10.2.1",
