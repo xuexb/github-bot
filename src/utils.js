@@ -9,7 +9,7 @@ const fs = require('fs')
 const crypto = require('crypto')
 const { fixedTimeComparison } = require('cryptiles')
 const { execSync } = require('child_process')
-const gitPullOrClone = require('git-pull-or-clone')
+// const gitPullOrClone = require('git-pull-or-clone')
 
 const utils = {
 
