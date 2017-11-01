@@ -1,6 +1,6 @@
 # github-bot
 
-Github robot
+github 机器人：在服务端上启动一个基于 [koajs](http://koajs.com/) 的 http server ，建立一些项目的规范（如 issue 格式、 pull request 格式、配置一些指定 label 根据的 owner 、统一 git commit log 格式等），基于 [github webhooks](https://developer.github.com/webhooks/) 和 [github api](https://developer.github.com/v3/) 让机器人（通常是一个单独的新的帐号，如 [@jiandansousuo-bot](https://github.com/jiandansousuo-bot) ）自动处理一些事情，从而达到快速响应、自动化、解放人力的效果。
 
 [![Build Status](https://travis-ci.org/xuexb/github-bot.svg?branch=master)](https://travis-ci.org/xuexb/github-bot)
 
