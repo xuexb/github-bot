@@ -36,7 +36,9 @@ log4js.configure(
       }
     },
     categories: {
-      default: { appenders: ['file', 'dateFile', 'logLevelFilter'], level: 'trace' }
+      app: { appenders: ['file'], level: 'trace' },
+      error: { appenders: ['logLevelFilter'], level: 'error' },
+      default: { appenders: ['dateFile'], level: 'trace' }
     }
   }
 )
