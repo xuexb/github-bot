@@ -13,7 +13,8 @@ const log4js = require('log4js')
 
 log4js.configure(
   {
-    'appenders': {
+    pm2: true,
+    appenders: {
       app: {
         'type': 'file',
         'filename': 'log/app.log',
