@@ -48,7 +48,6 @@ Object.keys(actions).forEach((key) => {
   appLog.info(`bind ${key} success!`)
 })
 
-const port = 8008
+const port = 8000
 app.listen(port)
 appLog.info('Listening on http://0.0.0.0:', port)
-appLog.error(new Error('this is a error'))
