@@ -106,6 +106,16 @@ npm run deploy
 
 后台启动该服务后，可以通过 `pm2 ls` 来查看服务名称为 `github-bot` 的运行状态。具体 [pm2](https://github.com/Unitech/pm2) 使用，请访问：https://github.com/Unitech/pm2
 
+### 5. 日志系统说明
+
+本系统 `logger` 服务基于 [log4js](https://github.com/log4js-node/log4js-node)。
+在根目录的 `.env` 文件中有个参数 `LOG_TYPE` 默认为 `console`，参数值说明：
+
+```
+console - 通过 console 输出log。
+file - 将所有相关log输出到更根目录的 `log` 文件夹中。
+```
+
 ## contributors
 
 > [用户贡献指南](.github/CONTRIBUTING.md)

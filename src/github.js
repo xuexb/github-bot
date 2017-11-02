@@ -5,7 +5,7 @@
 
 const GitHub = require('github')
 const { toArray } = require('./utils')
-const appLog = require('./log4js').getLogger('app')
+const { appLog } = require('./logger')
 
 const github = new GitHub({
   debug: process.env.NODE_ENV === 'development'

@@ -15,9 +15,7 @@ const pullRequestActions = requireDir('./modules/pull_request')
 const releasesActions = requireDir('./modules/releases')
 const app = new Koa()
 const githubEvent = new EventEmitter()
-const log4js = require('./log4js')
-const accessLog = log4js.getLogger('http')
-const appLog = log4js.getLogger('app')
+const { appLog, accessLog } = require('./logger')
 
 app.use(bodyParser())
 
@@ -48,10 +46,9 @@ const actions = Object.assign({}, issueActions, pullRequestActions, releasesActi
 Object.keys(actions).forEach((key) => {
   actions[key](githubEvent.on.bind(githubEvent))
   appLog.info(`bind ${key} success!`)
-  console.log(`bind ${key} success!`)
 })
 
-const port = 8000
+const port = 8008
 app.listen(port)
 appLog.info('Listening on http://0.0.0.0:', port)
-console.log(`Listening on http://0.0.0.0:${port}`)
+appLog.error(new Error('this is a error'))
