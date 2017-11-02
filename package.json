@@ -8,7 +8,10 @@
     "lint": "eslint src/**/*.js --quiet",
     "deploy": "pm2 start src/app.js --name=github-bot",
     "precommit": "npm run lint",
-    "commitmsg": "validate-commit-msg"
+    "commitmsg": "validate-commit-msg",
+    "test:watch": "npm run test -- --watch",
+    "test:cov": "istanbul cover node_modules/mocha/bin/_mocha -- -t 5000 --recursive  -R spec test/",
+    "test": "mocha --reporter spec --timeout 5000 --recursive test/"
   },
   "repository": {
     "type": "git",
@@ -58,6 +61,7 @@
     }
   },
   "devDependencies": {
+    "chai": "^4.1.2",
     "eslint": "^4.9.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-friendly-formatter": "^3.0.0",
@@ -66,6 +70,10 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "husky": "^0.14.3",
+    "istanbul": ">=1.0.0-alpha.2",
+    "mocha": "^4.0.1",
+    "sinon": "^4.0.2",
+    "sinon-chai": "^2.14.0",
     "validate-commit-msg": "^2.14.0"
   }
 }
