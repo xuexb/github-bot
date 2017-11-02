@@ -5,3 +5,6 @@ GITHUB_TOKEN=token
 
 # Webhook secret token, see https://developer.github.com/webhooks/securing/
 GITHUB_SECRET_TOKEN=secret
+
+# Logger type: default is console, if you want write log to file, set 'file'
+LOG_TYPE=console

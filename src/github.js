@@ -5,6 +5,7 @@
 
 const GitHub = require('github')
 const { toArray } = require('./utils')
+const { appLog } = require('./logger')
 
 const github = new GitHub({
   debug: process.env.NODE_ENV === 'development'
@@ -36,6 +37,7 @@ module.exports = {
       })
       return res.data.map(v => v.name).indexOf(label) > -1
     } catch (e) {
+      appLog.error(new Error(e))
       return false
     }
   },
@@ -60,6 +62,7 @@ module.exports = {
       })
       return res.data.map(v => v.name).indexOf(label) > -1
     } catch (e) {
+      appLog.error(new Error(e))
       return false
     }
   },
@@ -85,6 +88,7 @@ module.exports = {
       })
       return true
     } catch (e) {
+      appLog.error(new Error(e))
       return false
     }
   },
@@ -110,6 +114,7 @@ module.exports = {
       })
       return true
     } catch (e) {
+      appLog.error(new Error(e))
       return false
     }
   },
@@ -134,6 +139,7 @@ module.exports = {
       })
       return true
     } catch (e) {
+      appLog.error(new Error(e))
       return false
     }
   },
@@ -159,6 +165,7 @@ module.exports = {
       })
       return true
     } catch (e) {
+      appLog.error(new Error(e))
       return false
     }
   },
@@ -184,6 +191,7 @@ module.exports = {
       })
       return true
     } catch (e) {
+      appLog.error(new Error(e))
       return false
     }
   },
@@ -209,6 +217,7 @@ module.exports = {
       })
       return true
     } catch (e) {
+      appLog.error(new Error(e))
       return false
     }
   },
@@ -234,6 +243,7 @@ module.exports = {
       })
       return true
     } catch (e) {
+      appLog.error(new Error(e))
       return false
     }
   },
@@ -258,6 +268,7 @@ module.exports = {
       })
       return true
     } catch (e) {
+      appLog.error(new Error(e))
       return false
     }
   },
@@ -290,6 +301,7 @@ module.exports = {
       })
       return true
     } catch (e) {
+      appLog.error(new Error(e))
       return false
     }
   },
@@ -313,6 +325,7 @@ module.exports = {
       })
       return res.data
     } catch (e) {
+      appLog.error(new Error(e))
       return null
     }
   },
@@ -340,6 +353,7 @@ module.exports = {
       })
       return true
     } catch (e) {
+      appLog.error(new Error(e))
       return false
     }
   },
@@ -360,6 +374,7 @@ module.exports = {
       })
       return res.data
     } catch (e) {
+      appLog.error(new Error(e))
       return []
     }
   },
@@ -384,6 +399,7 @@ module.exports = {
       })
       return res.data
     } catch (e) {
+      appLog.error(new Error(e))
       return null
     }
   }

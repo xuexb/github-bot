@@ -3,6 +3,7 @@
 github 机器人：在服务端上启动一个基于 [koajs](http://koajs.com/) 的 http server ，建立一些项目的规范（如 issue 格式、 pull request 格式、配置一些指定 label 根据的 owner 、统一 git commit log 格式等），基于 [github webhooks](https://developer.github.com/webhooks/) 和 [github api](https://developer.github.com/v3/) 让机器人（通常是一个单独的帐号，如 [@jiandansousuo-bot](https://github.com/jiandansousuo-bot) ）自动处理一些事情，从而达到快速响应、自动化、解放人力的效果。
 
 [![Build Status](https://travis-ci.org/xuexb/github-bot.svg?branch=master)](https://travis-ci.org/xuexb/github-bot)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 
 ## 声明
 
@@ -85,13 +86,34 @@ https://github.com/用户名/项目名/settings/hooks/new
 - trigger: Send me everything.
 - Secret: xxx （_需要在 .env 里配置_）
 
-### 3. run server
+### 3. 开发运行
 
-```
+```bash
 npm install
 cp env .env
 vim .env
 npm start
+```
+
+### 4. 部署
+
+本项目使用 [pm2](https://github.com/Unitech/pm2) 进行服务管理，发布前请先全局安装 [pm2](https://github.com/Unitech/pm2)
+
+```bash
+npm install pm2 -g
+npm run deploy
+```
+
+后台启动该服务后，可以通过 `pm2 ls` 来查看服务名称为 `github-bot` 的运行状态。具体 [pm2](https://github.com/Unitech/pm2) 使用，请访问：https://github.com/Unitech/pm2
+
+### 5. 日志系统说明
+
+本系统 `logger` 服务基于 [log4js](https://github.com/log4js-node/log4js-node)。
+在根目录的 `.env` 文件中有个参数 `LOG_TYPE` 默认为 `console`，参数值说明：
+
+```
+console - 通过 console 输出log。
+file - 将所有相关log输出到更根目录的 `log` 文件夹中。
 ```
 
 ## contributors

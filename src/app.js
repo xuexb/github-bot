@@ -15,6 +15,7 @@ const pullRequestActions = requireDir('./modules/pull_request')
 const releasesActions = requireDir('./modules/releases')
 const app = new Koa()
 const githubEvent = new EventEmitter()
+const { appLog, accessLog } = require('./logger')
 
 app.use(bodyParser())
 
@@ -28,7 +29,7 @@ app.use(ctx => {
       eventName += `_${action}`
     }
 
-    console.log(`receive event: ${eventName}`)
+    accessLog.info(`receive event: ${eventName}`)
 
     githubEvent.emit(eventName, {
       repo: payload.repository.name,
@@ -44,9 +45,9 @@ app.use(ctx => {
 const actions = Object.assign({}, issueActions, pullRequestActions, releasesActions)
 Object.keys(actions).forEach((key) => {
   actions[key](githubEvent.on.bind(githubEvent))
-  console.log(`bind ${key} success!`)
+  appLog.info(`bind ${key} success!`)
 })
 
 const port = 8000
 app.listen(port)
-console.log(`Listening on http://0.0.0.0:${port}`)
+appLog.info('Listening on http://0.0.0.0:', port)

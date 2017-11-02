@@ -5,7 +5,8 @@
   "main": "src/app.js",
   "scripts": {
     "start": "NODE_ENV=development node src/app",
-    "lint": "eslint src/**/* --quiet",
+    "lint": "eslint src/**/*.js --quiet",
+    "deploy": "pm2 start src/app.js --name=github-bot",
     "precommit": "npm run lint",
     "commitmsg": "validate-commit-msg"
   },
@@ -26,6 +27,7 @@
     "github": "^11.0.0",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
+    "log4js": "^2.3.10",
     "require-dir": "^0.3.2",
     "string-template": "^1.0.0"
   },
