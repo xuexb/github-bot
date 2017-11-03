@@ -121,6 +121,7 @@ file - 将所有相关log输出到更根目录的 `log` 文件夹中。
 > [用户贡献指南](.github/CONTRIBUTING.md)
 
 - [@yugasun](https://github.com/yugasun/)
+- [@ddhhz](https://github.com/ddhhz)
 - [@xuexb](https://github.com/xuexb/)
 
 ## Liscense
