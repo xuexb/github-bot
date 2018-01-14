@@ -62,6 +62,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
     "eslint": "^4.9.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-friendly-formatter": "^3.0.0",
@@ -72,6 +73,7 @@
     "husky": "^0.14.3",
     "istanbul": ">=1.0.0-alpha.2",
     "mocha": "^4.0.1",
+    "mock-require": "^2.0.2",
     "sinon": "^4.0.2",
     "sinon-chai": "^2.14.0",
     "validate-commit-msg": "^2.14.0"

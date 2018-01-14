@@ -2,7 +2,7 @@
  * @file utils.js test case
  * @author xuexb <fe.xiaowu@gmail.com>
  */
-
+require('mock-require').stopAll()
 const utils = require('../src/utils')
 const expect = require('chai').expect
 
