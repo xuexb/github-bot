@@ -23,7 +23,7 @@ describe('modules/issues/autoAssign.js', () => {
       addAssigneesToIssue() {
       }
     })
-  });
+  })
 
   it('event name', () => {
     const autoAssign = require('../../../src/modules/issues/autoAssign')

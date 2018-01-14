@@ -24,7 +24,7 @@ const payload = {
   issue: {
     number: 1
   }
-};
+}
 
 const createClass = (constructor, prototype) => {
   function Class (...args) {
@@ -46,7 +46,7 @@ const mockGithub = (...args) => {
 describe('github.js', () => {
   beforeEach('clear node cache', () => {
     clean('src/github')
-  });
+  })
 
   describe('.issueHasLabel', () => {
     it('should be a method', () => {
@@ -78,8 +78,8 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
-        expect(github.issueHasLabel(payload, 'nofond')).to.eventually.be.true;
+        const github = require('../src/github')
+        expect(github.issueHasLabel(payload, 'nofond')).to.eventually.be.true
       })
 
       it('false', () => {
@@ -118,17 +118,17 @@ describe('github.js', () => {
       mockGithub(null, {
         issues: {
           getIssueLabels({owner, repo, number}) {
-            expect(owner).to.equal('xuexb');
-            expect(repo).to.equal('github-bot');
-            expect(number).to.equal(1);
+            expect(owner).to.equal('xuexb')
+            expect(repo).to.equal('github-bot')
+            expect(number).to.equal(1)
             return Promise.resolve({
               data: []
             })
           }
         }
       })
-      const github = require('../src/github');
-      return github.issueHasLabel(payload);
+      const github = require('../src/github')
+      return github.issueHasLabel(payload)
     })
 
   })
@@ -163,8 +163,8 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
-        expect(github.pullRequestHasLabel(payload, 'nofond')).to.eventually.be.true;
+        const github = require('../src/github')
+        expect(github.pullRequestHasLabel(payload, 'nofond')).to.eventually.be.true
       })
 
       it('false', () => {
@@ -181,8 +181,8 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
-        expect(github.pullRequestHasLabel(payload, 'nofond')).to.eventually.be.false;
+        const github = require('../src/github')
+        expect(github.pullRequestHasLabel(payload, 'nofond')).to.eventually.be.false
       })
 
       it('error', () => {
@@ -203,16 +203,16 @@ describe('github.js', () => {
       mockGithub(null, {
         issues: {
           getIssueLabels({owner, repo, number}) {
-            expect(owner).to.equal('xuexb');
-            expect(repo).to.equal('github-bot');
-            expect(number).to.equal(1);
+            expect(owner).to.equal('xuexb')
+            expect(repo).to.equal('github-bot')
+            expect(number).to.equal(1)
             return Promise.resolve({
               data: []
             })
           }
         }
       })
-      const github = require('../src/github');
+      const github = require('../src/github')
       return github.pullRequestHasLabel(payload)
     })
   })
@@ -239,7 +239,7 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
+        const github = require('../src/github')
         expect(github.commentIssue(payload, 'message')).to.eventually.be.true
       })
 
@@ -251,8 +251,8 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
-        expect(github.commentIssue(payload)).to.eventually.be.false;
+        const github = require('../src/github')
+        expect(github.commentIssue(payload)).to.eventually.be.false
       })
 
       it('error', () => {
@@ -273,15 +273,15 @@ describe('github.js', () => {
       mockGithub(null, {
         issues: {
           createComment({owner, repo, number}) {
-            expect(owner).to.equal('xuexb');
-            expect(repo).to.equal('github-bot');
-            expect(number).to.equal(1);
+            expect(owner).to.equal('xuexb')
+            expect(repo).to.equal('github-bot')
+            expect(number).to.equal(1)
             expect(body).to.equal('message')
             return Promise.resolve()
           }
         }
       })
-      const github = require('../src/github');
+      const github = require('../src/github')
       return github.commentIssue(payload, 'message')
     })
   })
@@ -308,7 +308,7 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
+        const github = require('../src/github')
         expect(github.commentPullRequest(payload, 'message')).to.eventually.be.true
       })
 
@@ -320,8 +320,8 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
-        expect(github.commentPullRequest(payload)).to.eventually.be.false;
+        const github = require('../src/github')
+        expect(github.commentPullRequest(payload)).to.eventually.be.false
       })
 
       it('error', () => {
@@ -342,15 +342,15 @@ describe('github.js', () => {
       mockGithub(null, {
         issues: {
           createComment({owner, repo, number}) {
-            expect(owner).to.equal('xuexb');
-            expect(repo).to.equal('github-bot');
-            expect(number).to.equal(1);
+            expect(owner).to.equal('xuexb')
+            expect(repo).to.equal('github-bot')
+            expect(number).to.equal(1)
             expect(body).to.equal('message')
             return Promise.resolve()
           }
         }
       })
-      const github = require('../src/github');
+      const github = require('../src/github')
       return github.commentPullRequest(payload, 'message')
     })
   })
@@ -377,7 +377,7 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
+        const github = require('../src/github')
         expect(github.closeIssue(payload)).to.eventually.be.true
       })
 
@@ -389,8 +389,8 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
-        expect(github.closeIssue(payload)).to.eventually.be.false;
+        const github = require('../src/github')
+        expect(github.closeIssue(payload)).to.eventually.be.false
       })
 
       it('error', () => {
@@ -411,15 +411,15 @@ describe('github.js', () => {
       mockGithub(null, {
         issues: {
           edit({owner, repo, number, state}) {
-            expect(owner).to.equal('xuexb');
-            expect(repo).to.equal('github-bot');
-            expect(number).to.equal(1);
+            expect(owner).to.equal('xuexb')
+            expect(repo).to.equal('github-bot')
+            expect(number).to.equal(1)
             expect(state).to.equal('closed')
             return Promise.resolve()
           }
         }
       })
-      const github = require('../src/github');
+      const github = require('../src/github')
       return github.closeIssue(payload)
     })
   })
@@ -446,7 +446,7 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
+        const github = require('../src/github')
         expect(github.addAssigneesToIssue(payload)).to.eventually.be.true
       })
 
@@ -458,8 +458,8 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
-        expect(github.addAssigneesToIssue(payload)).to.eventually.be.false;
+        const github = require('../src/github')
+        expect(github.addAssigneesToIssue(payload)).to.eventually.be.false
       })
 
       it('error', () => {
@@ -480,15 +480,15 @@ describe('github.js', () => {
       mockGithub(null, {
         issues: {
           edit({owner, repo, number, state}) {
-            expect(owner).to.equal('xuexb');
-            expect(repo).to.equal('github-bot');
-            expect(number).to.equal(1);
+            expect(owner).to.equal('xuexb')
+            expect(repo).to.equal('github-bot')
+            expect(number).to.equal(1)
             expect(assignees).to.deep.equal(['ok'])
             return Promise.resolve()
           }
         }
       })
-      const github = require('../src/github');
+      const github = require('../src/github')
       return github.addAssigneesToIssue(payload, 'ok')
     })
   })
@@ -515,7 +515,7 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
+        const github = require('../src/github')
         expect(github.addLabelsToIssue(payload, 'label')).to.eventually.be.true
       })
 
@@ -527,8 +527,8 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
-        expect(github.addLabelsToIssue(payload)).to.eventually.be.false;
+        const github = require('../src/github')
+        expect(github.addLabelsToIssue(payload)).to.eventually.be.false
       })
 
       it('error', () => {
@@ -549,15 +549,15 @@ describe('github.js', () => {
       mockGithub(null, {
         issues: {
           addLabels({owner, repo, number, state}) {
-            expect(owner).to.equal('xuexb');
-            expect(repo).to.equal('github-bot');
-            expect(number).to.equal(1);
+            expect(owner).to.equal('xuexb')
+            expect(repo).to.equal('github-bot')
+            expect(number).to.equal(1)
             expect(assignees).to.deep.equal(['ok'])
             return Promise.resolve()
           }
         }
       })
-      const github = require('../src/github');
+      const github = require('../src/github')
       return github.addLabelsToIssue(payload, 'ok')
     })
   })
@@ -584,7 +584,7 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
+        const github = require('../src/github')
         expect(github.addLabelsToPullRequest(payload, 'label')).to.eventually.be.true
       })
 
@@ -596,8 +596,8 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
-        expect(github.addLabelsToPullRequest(payload)).to.eventually.be.false;
+        const github = require('../src/github')
+        expect(github.addLabelsToPullRequest(payload)).to.eventually.be.false
       })
 
       it('error', () => {
@@ -618,15 +618,15 @@ describe('github.js', () => {
       mockGithub(null, {
         issues: {
           addLabels({owner, repo, number, state}) {
-            expect(owner).to.equal('xuexb');
-            expect(repo).to.equal('github-bot');
-            expect(number).to.equal(1);
+            expect(owner).to.equal('xuexb')
+            expect(repo).to.equal('github-bot')
+            expect(number).to.equal(1)
             expect(assignees).to.deep.equal(['ok'])
             return Promise.resolve()
           }
         }
       })
-      const github = require('../src/github');
+      const github = require('../src/github')
       return github.addLabelsToPullRequest(payload, 'ok')
     })
   })
@@ -653,7 +653,7 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
+        const github = require('../src/github')
         expect(github.removeLabelsToPullRequest(payload, 'label')).to.eventually.be.true
       })
 
@@ -665,8 +665,8 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
-        expect(github.removeLabelsToPullRequest(payload)).to.eventually.be.false;
+        const github = require('../src/github')
+        expect(github.removeLabelsToPullRequest(payload)).to.eventually.be.false
       })
 
       it('error', () => {
@@ -687,15 +687,15 @@ describe('github.js', () => {
       mockGithub(null, {
         issues: {
           removeLabel({owner, repo, number, state}) {
-            expect(owner).to.equal('xuexb');
-            expect(repo).to.equal('github-bot');
-            expect(number).to.equal(1);
+            expect(owner).to.equal('xuexb')
+            expect(repo).to.equal('github-bot')
+            expect(number).to.equal(1)
             expect(assignees).to.equal('ok')
             return Promise.resolve()
           }
         }
       })
-      const github = require('../src/github');
+      const github = require('../src/github')
       return github.removeLabelsToPullRequest(payload, 'ok')
     })
   })
@@ -722,7 +722,7 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
+        const github = require('../src/github')
         expect(github.removeLabelsToIssue(payload, 'label')).to.eventually.be.true
       })
 
@@ -734,8 +734,8 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
-        expect(github.removeLabelsToIssue(payload)).to.eventually.be.false;
+        const github = require('../src/github')
+        expect(github.removeLabelsToIssue(payload)).to.eventually.be.false
       })
 
       it('error', () => {
@@ -756,15 +756,15 @@ describe('github.js', () => {
       mockGithub(null, {
         issues: {
           removeLabel({owner, repo, number, state}) {
-            expect(owner).to.equal('xuexb');
-            expect(repo).to.equal('github-bot');
-            expect(number).to.equal(1);
+            expect(owner).to.equal('xuexb')
+            expect(repo).to.equal('github-bot')
+            expect(number).to.equal(1)
             expect(assignees).to.equal('ok')
             return Promise.resolve()
           }
         }
       })
-      const github = require('../src/github');
+      const github = require('../src/github')
       return github.removeLabelsToIssue(payload, 'ok')
     })
   })
@@ -791,7 +791,7 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
+        const github = require('../src/github')
         expect(github.createRelease(payload, {})).to.eventually.be.true
       })
 
@@ -803,8 +803,8 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
-        expect(github.createRelease(payload)).to.eventually.be.false;
+        const github = require('../src/github')
+        expect(github.createRelease(payload)).to.eventually.be.false
       })
 
       it('error', () => {
@@ -825,20 +825,20 @@ describe('github.js', () => {
       mockGithub(null, {
         repos: {
           createRelease({owner, repo, number, tag_name, target_commitish, name, body, draft, prerelease}) {
-            expect(owner).to.equal('xuexb');
-            expect(repo).to.equal('github-bot');
-            expect(number).to.equal(1);
-            expect(tag_name).to.equal('tag_name');
-            expect(target_commitish).to.equal('target_commitish');
-            expect(name).to.equal('name');
-            expect(body).to.equal('body');
-            expect(draft).to.equal('draft');
-            expect(prerelease).to.equal('prerelease');
+            expect(owner).to.equal('xuexb')
+            expect(repo).to.equal('github-bot')
+            expect(number).to.equal(1)
+            expect(tag_name).to.equal('tag_name')
+            expect(target_commitish).to.equal('target_commitish')
+            expect(name).to.equal('name')
+            expect(body).to.equal('body')
+            expect(draft).to.equal('draft')
+            expect(prerelease).to.equal('prerelease')
             return Promise.resolve()
           }
         }
       })
-      const github = require('../src/github');
+      const github = require('../src/github')
       return github.createRelease(payload, {
         tag_name: 'tag_name',
         target_commitish: 'target_commitish',
@@ -874,7 +874,7 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
+        const github = require('../src/github')
         expect(github.getReleaseByTag(payload, {
           tag_name: 'ok'
         })).to.eventually.be.true
@@ -890,8 +890,8 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
-        expect(github.getReleaseByTag(payload)).to.eventually.be.false;
+        const github = require('../src/github')
+        expect(github.getReleaseByTag(payload)).to.eventually.be.false
       })
 
       it('error', () => {
@@ -912,15 +912,15 @@ describe('github.js', () => {
       mockGithub(null, {
         repos: {
           getReleaseByTag({owner, repo, number, name}) {
-            expect(owner).to.equal('xuexb');
-            expect(repo).to.equal('github-bot');
-            expect(number).to.equal(1);
-            expect(name).to.equal('tag_name');
+            expect(owner).to.equal('xuexb')
+            expect(repo).to.equal('github-bot')
+            expect(number).to.equal(1)
+            expect(name).to.equal('tag_name')
             return Promise.resolve()
           }
         }
       })
-      const github = require('../src/github');
+      const github = require('../src/github')
       return github.getReleaseByTag(payload, {
         tag_name: 'tag_name'
       })
@@ -949,7 +949,7 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
+        const github = require('../src/github')
         expect(github.createReviewRequest(payload, {
           reviewers: 'reviewers',
           team_reviewers: 'team_reviewers'
@@ -964,8 +964,8 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
-        expect(github.createReviewRequest(payload)).to.eventually.be.false;
+        const github = require('../src/github')
+        expect(github.createReviewRequest(payload)).to.eventually.be.false
       })
 
       it('error', () => {
@@ -986,16 +986,16 @@ describe('github.js', () => {
       mockGithub(null, {
         pullRequests: {
           createReviewRequest({owner, repo, number, team_reviewers, reviewers}) {
-            expect(owner).to.equal('xuexb');
-            expect(repo).to.equal('github-bot');
-            expect(number).to.equal(1);
-            expect(reviewers).to.equal('reviewers');
-            expect(team_reviewers).to.equal('team_reviewers');
+            expect(owner).to.equal('xuexb')
+            expect(repo).to.equal('github-bot')
+            expect(number).to.equal(1)
+            expect(reviewers).to.equal('reviewers')
+            expect(team_reviewers).to.equal('team_reviewers')
             return Promise.resolve()
           }
         }
       })
-      const github = require('../src/github');
+      const github = require('../src/github')
       return github.createReviewRequest(payload, {
         reviewers: 'reviewers',
         team_reviewers: 'team_reviewers'
@@ -1027,7 +1027,7 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
+        const github = require('../src/github')
         expect(github.getTags(payload)).to.eventually.be.true
       })
 
@@ -1041,8 +1041,8 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
-        expect(github.getTags(payload)).to.eventually.be.false;
+        const github = require('../src/github')
+        expect(github.getTags(payload)).to.eventually.be.false
       })
 
       it('error', () => {
@@ -1063,13 +1063,13 @@ describe('github.js', () => {
       mockGithub(null, {
         repos: {
           getTags({owner, repo}) {
-            expect(owner).to.equal('xuexb');
-            expect(repo).to.equal('github-bot');
+            expect(owner).to.equal('xuexb')
+            expect(repo).to.equal('github-bot')
             return Promise.resolve()
           }
         }
       })
-      const github = require('../src/github');
+      const github = require('../src/github')
       return github.getTags(payload)
     })
   })
@@ -1098,7 +1098,7 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
+        const github = require('../src/github')
         expect(github.compareCommits(payload, {
           base: 'base',
           head: 'head'
@@ -1115,8 +1115,8 @@ describe('github.js', () => {
             }
           }
         })
-        const github = require('../src/github');
-        expect(github.compareCommits(payload)).to.eventually.be.false;
+        const github = require('../src/github')
+        expect(github.compareCommits(payload)).to.eventually.be.false
       })
 
       it('error', () => {
@@ -1137,15 +1137,15 @@ describe('github.js', () => {
       mockGithub(null, {
         repos: {
           compareCommits({owner, repo, base, head}) {
-            expect(owner).to.equal('xuexb');
-            expect(repo).to.equal('github-bot');
-            expect(base).to.equal('base');
-            expect(head).to.equal('head');
+            expect(owner).to.equal('xuexb')
+            expect(repo).to.equal('github-bot')
+            expect(base).to.equal('base')
+            expect(head).to.equal('head')
             return Promise.resolve()
           }
         }
       })
-      const github = require('../src/github');
+      const github = require('../src/github')
       return github.compareCommits(payload, {
         base: 'base',
         head: 'head'

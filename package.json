@@ -5,7 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "start": "NODE_ENV=development node src/app",
-    "lint": "eslint src/**/*.js --quiet",
+    "lint": "eslint src/**/*.js test/**/*.js --quiet",
     "deploy": "pm2 start src/app.js --name=github-bot",
     "precommit": "npm run lint",
     "commitmsg": "validate-commit-msg",
