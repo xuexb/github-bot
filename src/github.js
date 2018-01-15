@@ -3,6 +3,7 @@
  * @author xuexb <fe.xiaowu@gmail.com>
  */
 
+/* eslint-disable camelcase */
 const GitHub = require('github')
 const { toArray } = require('./utils')
 const { appLog } = require('./logger')
