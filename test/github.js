@@ -824,12 +824,12 @@ describe('github.js', () => {
     it('check param', () => {
       mockGithub(null, {
         repos: {
-          createRelease({owner, repo, number, tag_name, target_commitish, name, body, draft, prerelease}) {
+          createRelease({owner, repo, number, tagName, targetCommitish, name, body, draft, prerelease}) {
             expect(owner).to.equal('xuexb')
             expect(repo).to.equal('github-bot')
             expect(number).to.equal(1)
-            expect(tag_name).to.equal('tag_name')
-            expect(target_commitish).to.equal('target_commitish')
+            expect(tagName).to.equal('tagName')
+            expect(targetCommitish).to.equal('targetCommitish')
             expect(name).to.equal('name')
             expect(body).to.equal('body')
             expect(draft).to.equal('draft')
@@ -840,8 +840,8 @@ describe('github.js', () => {
       })
       const github = require('../src/github')
       return github.createRelease(payload, {
-        tag_name: 'tag_name',
-        target_commitish: 'target_commitish',
+        tagName: 'tagName',
+        targetCommitish: 'targetCommitish',
         name: 'name',
         body: 'body',
         draft: 'draft',
@@ -876,7 +876,7 @@ describe('github.js', () => {
         })
         const github = require('../src/github')
         expect(github.getReleaseByTag(payload, {
-          tag_name: 'ok'
+          tagName: 'ok'
         })).to.eventually.be.true
       })
 
@@ -915,14 +915,14 @@ describe('github.js', () => {
             expect(owner).to.equal('xuexb')
             expect(repo).to.equal('github-bot')
             expect(number).to.equal(1)
-            expect(name).to.equal('tag_name')
+            expect(name).to.equal('tagName')
             return Promise.resolve()
           }
         }
       })
       const github = require('../src/github')
       return github.getReleaseByTag(payload, {
-        tag_name: 'tag_name'
+        tagName: 'tagName'
       })
     })
   })
@@ -952,7 +952,7 @@ describe('github.js', () => {
         const github = require('../src/github')
         expect(github.createReviewRequest(payload, {
           reviewers: 'reviewers',
-          team_reviewers: 'team_reviewers'
+          teamReviewers: 'teamReviewers'
         })).to.eventually.be.true
       })
 
@@ -985,12 +985,12 @@ describe('github.js', () => {
     it('check param', () => {
       mockGithub(null, {
         pullRequests: {
-          createReviewRequest({owner, repo, number, team_reviewers, reviewers}) {
+          createReviewRequest({owner, repo, number, teamReviewers, reviewers}) {
             expect(owner).to.equal('xuexb')
             expect(repo).to.equal('github-bot')
             expect(number).to.equal(1)
             expect(reviewers).to.equal('reviewers')
-            expect(team_reviewers).to.equal('team_reviewers')
+            expect(teamReviewers).to.equal('teamReviewers')
             return Promise.resolve()
           }
         }
@@ -998,7 +998,7 @@ describe('github.js', () => {
       const github = require('../src/github')
       return github.createReviewRequest(payload, {
         reviewers: 'reviewers',
-        team_reviewers: 'team_reviewers'
+        teamReviewers: 'teamReviewers'
       })
     })
   })
