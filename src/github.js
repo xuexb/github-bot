@@ -3,6 +3,7 @@
  * @author xuexb <fe.xiaowu@gmail.com>
  */
 
+/* eslint-disable camelcase */
 const GitHub = require('github')
 const { toArray } = require('./utils')
 const { appLog } = require('./logger')
@@ -258,7 +259,7 @@ module.exports = {
   async removeLabelsToIssue (payload, name) {
     const owner = payload.repository.owner.login
     const repo = payload.repository.name
-    const number = payload.issues.number
+    const number = payload.issue.number
     try {
       await github.issues.removeLabel({
         owner,
@@ -285,7 +286,7 @@ module.exports = {
    * @param  {boolean} options.prerelease       是否预发布
    * @return {boolean} 是否成功
    */
-  async createRelease (payload, { tag_name, target_commitish, name, body, draft, prerelease }) {
+  async createRelease (payload, { tag_name, target_commitish, name, body, draft, prerelease } = {}) {
     const owner = payload.repository.owner.login
     const repo = payload.repository.name
     try {
@@ -314,7 +315,7 @@ module.exports = {
    *
    * @return {Object | null}
    */
-  async getReleaseByTag (payload, { tag_name }) {
+  async getReleaseByTag (payload, { tag_name } = {}) {
     const owner = payload.repository.owner.login
     const repo = payload.repository.name
     try {
@@ -339,7 +340,7 @@ module.exports = {
    *
    * @return {boolean} 是否成功
    */
-  async createReviewRequest (payload, { reviewers, team_reviewers }) {
+  async createReviewRequest (payload, { reviewers, team_reviewers } = {}) {
     const owner = payload.repository.owner.login
     const repo = payload.repository.name
     const number = payload.pull_request.number
@@ -387,7 +388,7 @@ module.exports = {
    * @param  {string} options.head diff
    * @return {Array | null}
    */
-  async compareCommits (payload, { base, head }) {
+  async compareCommits (payload, { base, head } = {}) {
     const owner = payload.repository.owner.login
     const repo = payload.repository.name
     try {
