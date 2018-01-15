@@ -3,6 +3,7 @@
  * @author xuexb <fe.xiaowu@gmail.com>
  */
 
+/* eslint-disable camelcase */
 const mock = require('mock-require')
 mock.stopAll()
 const chai = require('chai')
@@ -824,12 +825,12 @@ describe('github.js', () => {
     it('check param', () => {
       mockGithub(null, {
         repos: {
-          createRelease({owner, repo, number, tagName, targetCommitish, name, body, draft, prerelease}) {
+          createRelease({owner, repo, number, tag_name, target_commitish, name, body, draft, prerelease}) {
             expect(owner).to.equal('xuexb')
             expect(repo).to.equal('github-bot')
             expect(number).to.equal(1)
-            expect(tagName).to.equal('tagName')
-            expect(targetCommitish).to.equal('targetCommitish')
+            expect(tag_name).to.equal('tag_name')
+            expect(target_commitish).to.equal('target_commitish')
             expect(name).to.equal('name')
             expect(body).to.equal('body')
             expect(draft).to.equal('draft')
@@ -840,8 +841,8 @@ describe('github.js', () => {
       })
       const github = require('../src/github')
       return github.createRelease(payload, {
-        tagName: 'tagName',
-        targetCommitish: 'targetCommitish',
+        tag_name: 'tag_name',
+        target_commitish: 'target_commitish',
         name: 'name',
         body: 'body',
         draft: 'draft',
@@ -876,7 +877,7 @@ describe('github.js', () => {
         })
         const github = require('../src/github')
         expect(github.getReleaseByTag(payload, {
-          tagName: 'ok'
+          tag_name: 'ok'
         })).to.eventually.be.true
       })
 
@@ -915,14 +916,14 @@ describe('github.js', () => {
             expect(owner).to.equal('xuexb')
             expect(repo).to.equal('github-bot')
             expect(number).to.equal(1)
-            expect(name).to.equal('tagName')
+            expect(name).to.equal('tag_name')
             return Promise.resolve()
           }
         }
       })
       const github = require('../src/github')
       return github.getReleaseByTag(payload, {
-        tagName: 'tagName'
+        tag_name: 'tag_name'
       })
     })
   })
@@ -952,7 +953,7 @@ describe('github.js', () => {
         const github = require('../src/github')
         expect(github.createReviewRequest(payload, {
           reviewers: 'reviewers',
-          teamReviewers: 'teamReviewers'
+          team_reviewers: 'team_reviewers'
         })).to.eventually.be.true
       })
 
@@ -985,12 +986,12 @@ describe('github.js', () => {
     it('check param', () => {
       mockGithub(null, {
         pullRequests: {
-          createReviewRequest({owner, repo, number, teamReviewers, reviewers}) {
+          createReviewRequest({owner, repo, number, team_reviewers, reviewers}) {
             expect(owner).to.equal('xuexb')
             expect(repo).to.equal('github-bot')
             expect(number).to.equal(1)
             expect(reviewers).to.equal('reviewers')
-            expect(teamReviewers).to.equal('teamReviewers')
+            expect(team_reviewers).to.equal('team_reviewers')
             return Promise.resolve()
           }
         }
@@ -998,7 +999,7 @@ describe('github.js', () => {
       const github = require('../src/github')
       return github.createReviewRequest(payload, {
         reviewers: 'reviewers',
-        teamReviewers: 'teamReviewers'
+        team_reviewers: 'team_reviewers'
       })
     })
   })
