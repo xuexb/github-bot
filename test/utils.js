@@ -14,6 +14,7 @@ describe('utils.js', () => {
       expect(utils.toArray(null)).to.be.null
     })
     it('should return array if not the empty string', () => {
+      expect(utils.toArray(['string'])).to.be.a('array').and.to.deep.equal(['string'])
       expect(utils.toArray('string')).to.be.a('array').and.to.deep.equal(['string'])
     })
   })
