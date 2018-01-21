@@ -5,13 +5,14 @@
 
 const { addLabelsToIssue } = require('../../github')
 
-function autoAssign (on) {
-  on('issues_opened', ({ payload, repo }) => {
-    const label = (payload.issue.body.match(/<!--\s*label:\s*(.+?)\s*-->/) || [])[1]
-    if (label) {
-      addLabelsToIssue(payload, label)
-    }
-  })
+module.exports = {
+  name: 'issue/autoLabel',
+  register (on) {
+    on('issues_opened', ({ payload, repo }) => {
+      const label = (payload.issue.body.match(/<!--\s*label:\s*(.+?)\s*-->/) || [])[1]
+      if (label) {
+        addLabelsToIssue(payload, label)
+      }
+    })
+  }
 }
-
-module.exports = autoAssign

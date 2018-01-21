@@ -10,12 +10,13 @@ const Koa = require('koa')
 const bodyParser = require('koa-bodyparser')
 const requireDir = require('require-dir')
 const { verifySignature } = require('./utils')
-const issueActions = requireDir('./modules/issues')
-const pullRequestActions = requireDir('./modules/pull_request')
-const releasesActions = requireDir('./modules/releases')
 const app = new Koa()
 const githubEvent = new EventEmitter()
 const { appLog, accessLog } = require('./logger')
+const pkg = require('../package.json')
+
+pkg.config = pkg.config || {}
+pkg.config['github-bot'] = pkg.config['github-bot'] || {}
 
 app.use(bodyParser())
 
@@ -31,7 +32,7 @@ app.use(ctx => {
 
     accessLog.info(`receive event: ${eventName}`)
 
-    githubEvent.emit(eventName, {
+    githubEvent.emit(`${payload.repository.full_name}@${eventName}`, {
       repo: payload.repository.name,
       payload
     })
@@ -42,7 +43,47 @@ app.use(ctx => {
   }
 })
 
-const actions = Object.assign({}, issueActions, pullRequestActions, releasesActions)
+const events = {}
+const actions = Object.assign(
+  {},
+  requireDir('./modules/issues'),
+  requireDir('./modules/pullRequest'),
+  requireDir('./modules/releases')
+)
+Object.keys(actions).forEach(key => {
+  const name = actions[key].name
+  if (events[name]) {
+    appLog.error(`${name} is existed`)
+    return
+  }
+  events[name] = actions[key].register
+})
+Object.keys(pkg.config['github-bot']).forEach(repo => {
+  Object.keys(pkg.config['github-bot'][repo]).forEach(type => {
+    Object.keys(pkg.config['github-bot'][repo][type]).forEach(name => {
+      const config = pkg.config['github-bot'][repo][type][name]
+      const register = events[`${type}/${name}`]
+      if (config.enabled === true && register) {
+        register((eventName, callback) => {
+          githubEvent.on(`${repo}@${eventName}@source`, data => {
+            callback(data, {
+              config: pkg.config['github-bot'][repo],
+              scope: config.data || {}
+            })
+          })
+          githubEvent.on(`${repo}@${eventName}`, data => {
+            githubEvent.emit(`${repo}@${eventName}@source`, data)
+          })
+        })
+      } else if (config.enabled !== true) {
+        appLog.info(`pkg.config.github-bot.${repo}.${type}.${name} is not enabled.`)
+      } else {
+        appLog.info(`pkg.config.github-bot.${repo}.${type}.${name} is config error.`)
+      }
+    })
+  })
+})
+
 Object.keys(actions).forEach((key) => {
   actions[key](githubEvent.on.bind(githubEvent))
   appLog.info(`bind ${key} success!`)
