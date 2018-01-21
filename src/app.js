@@ -43,7 +43,9 @@ app.use(ctx => {
   }
 })
 
-const events = {}
+const events = {
+  uid: 0
+}
 const actions = Object.assign(
   {},
   requireDir('./modules/issues'),
@@ -65,14 +67,15 @@ Object.keys(pkg.config['github-bot']).forEach(repo => {
       const register = events[`${type}/${name}`]
       if (config.enabled === true && register) {
         register((eventName, callback) => {
-          githubEvent.on(`${repo}@${eventName}@source`, data => {
+          const uid = events.uid++
+          githubEvent.on(`${repo}@${eventName}@source@${uid}`, data => {
             callback(data, {
               config: pkg.config['github-bot'][repo],
               scope: config.data || {}
             })
           })
           githubEvent.on(`${repo}@${eventName}`, data => {
-            githubEvent.emit(`${repo}@${eventName}@source`, data)
+            githubEvent.emit(`${repo}@${eventName}@source@${uid}`, data)
           })
         })
       } else if (config.enabled !== true) {
