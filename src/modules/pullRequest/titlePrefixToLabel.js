@@ -28,7 +28,10 @@ const handle = async ({ payload, repo }) => {
   }
 }
 
-module.exports = on => {
-  on('pull_request_edited', handle)
-  on('pull_request_opened', handle)
+module.exports = {
+  name: 'pullRequest/titlePrefixToLabel',
+  register (on) {
+    on('pull_request_edited', handle)
+    on('pull_request_opened', handle)
+  }
 }

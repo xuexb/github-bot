@@ -1,22 +1,24 @@
 /**
- * @file issue 自动 `assign` 给指定人员
+ * @file PR 自动根据 tag 去添加 reviewer
  * @author xuexb <fe.xiaowu@gmail.com>
  */
 
 const { getPkgConfig } = require('../../utils')
-const { addAssigneesToIssue } = require('../../github')
+const { createReviewRequest } = require('../../github')
 
 const config = getPkgConfig()
 const assignMap = config.labelToAuthor || {}
 
 module.exports = {
-  name: 'issue/autoAssign',
+  name: 'pullRequest/autoReviewRequest',
   register (on) {
-    on('issues_labeled', ({ payload, repo }) => {
+    on('pull_request_labeled', ({payload}) => {
       if (assignMap[payload.label.name]) {
-        addAssigneesToIssue(
+        createReviewRequest(
           payload,
-          assignMap[payload.label.name]
+          {
+            reviewers: assignMap[payload.label.name]
+          }
         )
       }
     })

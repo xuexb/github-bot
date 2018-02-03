@@ -4,18 +4,15 @@
  */
 
 require('dotenv').config()
+require('./register')
 
-const EventEmitter = require('events')
+const event = require('./event')
 const Koa = require('koa')
 const bodyParser = require('koa-bodyparser')
-const requireDir = require('require-dir')
 const { verifySignature } = require('./utils')
-const issueActions = requireDir('./modules/issues')
-const pullRequestActions = requireDir('./modules/pull_request')
-const releasesActions = requireDir('./modules/releases')
 const app = new Koa()
-const githubEvent = new EventEmitter()
 const { appLog, accessLog } = require('./logger')
+const port = 8000
 
 app.use(bodyParser())
 
@@ -31,7 +28,7 @@ app.use(ctx => {
 
     accessLog.info(`receive event: ${eventName}`)
 
-    githubEvent.emit(eventName, {
+    event.emit(`${payload.repository.full_name}@${eventName}`, {
       repo: payload.repository.name,
       payload
     })
@@ -42,12 +39,5 @@ app.use(ctx => {
   }
 })
 
-const actions = Object.assign({}, issueActions, pullRequestActions, releasesActions)
-Object.keys(actions).forEach((key) => {
-  actions[key](githubEvent.on.bind(githubEvent))
-  appLog.info(`bind ${key} success!`)
-})
-
-const port = 8000
 app.listen(port)
 appLog.info('Listening on http://0.0.0.0:', port)

@@ -53,10 +53,28 @@
       ]
     },
     "github-bot": {
-      "labelToAuthor": {
-        "bug": "xuexb",
-        "enhancement": "xuexb",
-        "question": "xuexb"
+      "xuexb/github-bot": {
+        "issue/replyNeedDemo": {
+          "enabled": true,
+          "data": {
+            "need demo": "您好，请填写相关 Demo 链接。",
+            "need update package": "请更新版本号。"
+          }
+        },
+        "issue/autoAssign": {
+          "enabled": true,
+          "data": {
+            "bug": "xuexb",
+            "enhancement": "xuexb",
+            "question": "xuexb"
+          }
+        },
+        "pullRequest/autoReviewRequest": {
+          "enabled": true,
+          "data": {
+            "bug": "xuexb"
+          }
+        }
       }
     }
   },
